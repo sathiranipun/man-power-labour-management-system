@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
+import { getApps, getApp, initializeApp } from 'firebase/app';
 import logo from './logo.svg';
 import './App.css';
+import firebaseConfig from './constants/firebaseconfig';
 
-function App() {
+const App = () => {
+  useEffect(() => getApps().length ? getApp() : initializeApp(firebaseConfig), []);
+
   return (
     <div className="App">
       <header className="App-header">

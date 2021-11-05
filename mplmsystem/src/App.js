@@ -1,30 +1,28 @@
-import { useEffect } from 'react';
-import { getApps, getApp, initializeApp } from 'firebase/app';
-import logo from './logo.svg';
-import './App.css';
-import firebaseConfig from './constants/firebaseConfig';
+import { useEffect } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import { getApps, getApp, initializeApp } from "firebase/app";
+import "./App.css";
+import firebaseConfig from "./constants/firebaseConfig";
+import Header from "./components/Header";
+import CompanyContainer from "./containers/CompanyContainer";
+import DashboardContainer from "./containers/DashboardContainer";
+import LabourContainer from "./containers/LabourContainer";
+import LoginContainer from "./containers/LoginContainer";
 
 const App = () => {
-  useEffect(() => getApps().length ? getApp() : initializeApp(firebaseConfig), []);
+  useEffect(() => (getApps().length ? getApp() : initializeApp(firebaseConfig)), []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Routes>
+        <Route path="/" element={<DashboardContainer />} />
+        <Route path="login" element={<LoginContainer />} />
+        <Route path="company" element={<CompanyContainer />} />
+        <Route path="labour" element={<LabourContainer />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;

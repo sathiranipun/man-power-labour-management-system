@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { getApps, getApp, initializeApp } from 'firebase/app';
 import logo from './logo.svg';
 import './App.css';
-import firebaseConfig from './constants/firebaseconfig';
+import firebaseConfig from './constants/firebaseConfig';
 
 const App = () => {
   useEffect(() => getApps().length ? getApp() : initializeApp(firebaseConfig), []);

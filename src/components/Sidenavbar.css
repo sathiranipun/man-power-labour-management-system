@@ -1,0 +1,26 @@
+.sidenavbar{
+    position: fixed;
+    top: 0;left: 0;
+    height: 100%;
+    background: #ffffff;
+    padding: 3rem;
+    width: 20rem;  
+}
+
+.sidenavbar li{
+    display: block;
+    border-bottom: .1rem solid #8d8d8d;
+    font-size: 1.5rem;
+    padding: 0;
+    background: rgb(255, 255, 255);
+}
+
+.sidenavbar li:last-child{
+    border-bottom: none;
+}
+
+.sidenavbar li:hover{
+    letter-spacing: .2rem;
+    color: #ff7b00 !important;
+}
+

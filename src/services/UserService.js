@@ -1,5 +1,5 @@
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection } from 'firebase/firestore';
+import { collection, doc, getFirestore, getDoc, onSnapshot } from 'firebase/firestore';
 import { globalActionTypes } from './Reducers/globalReducer';
 import { userActionTypes } from './Reducers/userReducer';
 
@@ -7,15 +7,19 @@ let userDocSubscriber;
 
 export const login = async (email, password) => {
     const auth = getAuth();
+    const db = getFirestore();
     try {
         const credentials = await signInWithEmailAndPassword(auth, email, password);
         let user = (({ uid, email }) => ({ uid, email }))(credentials.user);
-        const userDoc = await collection('users').doc(user.uid).get();
+        console.log(user);
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        console.log('hello');
         if (!userDoc.exists) {
 
         }
     } catch (error) {
-
+        console.log(error);
     }
 }
 
@@ -27,14 +31,21 @@ export const logout = async () => {
     }
 }
 
-export const authStateChangeHandle = (globalDispatch, userDispatch) => {
-    onAuthStateChanged({
+export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
+    const auth = getAuth();
+    const db = getFirestore();
+    auth.onAuthStateChanged({
         next: async (loggedUser) => {
+            //console.log(loggedUser);
             if (loggedUser) {
                 const userID = loggedUser.uid;
                 if (!userDocSubscriber) {
-                    userDocSubscriber = collection('users').doc(userID).onSnapshot({
-                        next: async (user) => {
+
+                    userDocSubscriber = onSnapshot(doc(db, 'users', userID), {
+                        next: async (userRef) => {
+                            const userData = userRef.data();
+                            const user = (({ uid, email, name }) => ({ uid, email, name }))(userData);
+                            console.log(user);
                             userDispatch({
                                 type: userActionTypes.SET_LOGGED_USER,
                                 loggedUserData: user,

@@ -1,5 +1,5 @@
 export const globalInitialState = {
-    authLoading: false,
+    authLoading: true,
     globalLoading: true,
     loggedIn: false,
 }

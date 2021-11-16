@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => setLoginUI(location.pathname.includes('login')), [location]);
 
   //Getting user and globle data
-  const { userState, globalDispatch, userDispatch } = useStateValue();
+  const { userState, globalDispatch, userDispatch, globalState } = useStateValue();
 
   //Run the auth state listner
   useEffect(async () => {
@@ -37,6 +37,12 @@ const App = () => {
   useEffect(() => {
     console.log(userState);
   }, [userState]);
+
+  if (globalState.authLoading) {
+    return (
+      <div>loading.....</div>
+    )
+  }
 
   return (
     <div className="App">
@@ -63,6 +69,7 @@ const App = () => {
       </div>
     </div>
   );
+
 };
 
 export default App;

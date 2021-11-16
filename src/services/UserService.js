@@ -37,7 +37,10 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
     const db = getFirestore();
     auth.onAuthStateChanged({
         next: async (loggedUser) => {
-            //console.log(loggedUser);
+            globalDispatch({
+                type: globalActionTypes.SET_GLOBAL_AUTH_LOADING,
+                authLoading: true,
+            });
             if (loggedUser) {
                 const userID = loggedUser.uid;
                 if (!userDocSubscriber) {
@@ -83,6 +86,3 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
     })
 };
 
-const setAuthLoading = () => {
-
-}

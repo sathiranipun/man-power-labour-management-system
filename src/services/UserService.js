@@ -24,8 +24,9 @@ export const login = async (email, password) => {
 }
 
 export const logout = async () => {
+    const auth = getAuth();
     try {
-        await signOut();
+        await signOut(auth);
     } catch (error) {
         console.log(error);
     }
@@ -81,3 +82,7 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
         error: (err) => console.log(err),
     })
 };
+
+const setAuthLoading = () => {
+
+}

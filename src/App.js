@@ -11,7 +11,7 @@ import Sidenavbar from "./components/Sidenavbar";
 import LoginComponent from "./components/LoginComponent";
 import AddJobComponent from "./components/CompanyComponent/AddJobComponent";
 import { GuardedRoute } from "./services/GuardedRoute";
-import { authStateChangeHandle, login } from "./services/UserService";
+import { authStateChangeHandle, login, logout } from "./services/UserService";
 import { useStateValue } from "./services/ContextProvider";
 import { getAllLabours } from "./services/LabourService";
 
@@ -31,6 +31,7 @@ const App = () => {
   useEffect(async () => {
     await authStateChangeHandle(globalDispatch, userDispatch);
     //await login("nipun299233@gmail.com", 'nipun123');
+    //await logout();
   }, []);
 
   useEffect(() => {

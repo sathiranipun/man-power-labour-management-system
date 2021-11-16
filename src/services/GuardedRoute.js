@@ -9,9 +9,7 @@ export const GuardedRoute = ({ Component, ...rest }) => {
     useEffect(() => {
         setIsLoggedIn(userState.loggedUserData !== null && globalState.loggedIn);
     }, [userState.loggedUserData, globalState.loggedIn]);
-    console.log('running');
     if (isLoggedIn) {
-        console.log(isLoggedIn);
         return (
             <Component {...rest} />
         );

@@ -12,6 +12,7 @@ import AddJobComponent from "./components/CompanyComponent/AddJobComponent";
 import { GuardedRoute } from "./services/GuardedRoute";
 import { authStateChangeHandle, login } from "./services/UserService";
 import { useStateValue } from "./services/ContextProvider";
+import { getAllLabours } from "./services/LabourService";
 
 
 const App = () => {

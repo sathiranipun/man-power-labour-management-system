@@ -8,6 +8,7 @@ import DashboardContainer from "./containers/DashboardContainer";
 import LabourContainer from "./containers/LabourContainer";
 import LoginContainer from "./containers/LoginContainer";
 import Sidenavbar from "./components/Sidenavbar";
+import LoginComponent from "./components/LoginComponent";
 import AddJobComponent from "./components/CompanyComponent/AddJobComponent";
 import { GuardedRoute } from "./services/GuardedRoute";
 import { authStateChangeHandle, login } from "./services/UserService";

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { getApps, getApp, initializeApp } from "firebase/app";
 import "./App.css";
 import firebaseConfig from "./constants/firebaseConfig";
@@ -13,25 +13,26 @@ import { GuardedRoute } from "./services/GuardedRoute";
 
 
 const App = () => {
+  const location = useLocation();
+  const [loginUI, setLoginUI] = useState(false);
+
   useEffect(() => (getApps().length ? getApp() : initializeApp(firebaseConfig)), []);
+
+  useEffect(() => setLoginUI(location.pathname.includes('login')), [location])
 
   return (
     <div className="App">
       <div className="row">
-        {/* <div className="col-md-2 p-0">
-          <Sidenavbar />
-        </div> */}
-        <div className="col-md-10 p-0">
+        {
+          !loginUI && <div className="col-md-2 p-0">
+            <Sidenavbar />
+          </div>
+        }
+        <div className="col p-0">
           <Routes>
-            <Route path="/" exact>
-              <GuardedRoute Component={DashboardContainer} />
-            </Route>
-            <Route path="/company" exact>
-              <GuardedRoute Component={CompanyContainer} />
-            </Route>
-            <Route path="/labour" exact>
-              <GuardedRoute Component={LabourContainer} />
-            </Route>
+            <Route path="/" exact element={<GuardedRoute Component={DashboardContainer} />} />
+            <Route path="/company" exact element={<GuardedRoute Component={CompanyContainer} />} />
+            <Route path="/labour" exact element={<GuardedRoute Component={LabourContainer} />} />
             {/* <Route path="/addcompany" exact>
               <GuardedRoute Component={AddJobComponent} />
             </Route> */}

@@ -23,15 +23,9 @@ const App = () => {
         </div>
         <div className="col-md-10 p-0">
           <Routes>
-            <Route path="/" exact>
-              <GuardedRoute Component={DashboardContainer} />
-            </Route>
-            <Route path="/company" exact>
-              <GuardedRoute Component={CompanyContainer} />
-            </Route>
-            <Route path="/labour" exact>
-              <GuardedRoute Component={LabourContainer} />
-            </Route>
+            <Route path="/" exact element={<GuardedRoute Component={DashboardContainer} />} />
+            <Route path="/company" exact element={<GuardedRoute Component={CompanyContainer} />} />
+            <Route path="/labour" exact element={<GuardedRoute Component={LabourContainer} />} />
             {/* <Route path="/addcompany" exact>
               <GuardedRoute Component={AddJobComponent} />
             </Route> */}

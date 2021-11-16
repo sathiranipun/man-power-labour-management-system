@@ -18,9 +18,9 @@ const App = () => {
   return (
     <div className="App">
       <div className="row">
-        <div className="col-md-2 p-0">
+        {/* <div className="col-md-2 p-0">
           <Sidenavbar />
-        </div>
+        </div> */}
         <div className="col-md-10 p-0">
           <Routes>
             <Route path="/" exact>

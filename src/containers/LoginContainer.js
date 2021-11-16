@@ -1,9 +1,10 @@
 import React from 'react'
+import LoginComponent from '../components/LoginComponent'
 
 const LoginContainer = () => {
     return (
         <div>
-            <p>Login Container</p>
+            <LoginComponent/>
         </div>
     )
 }

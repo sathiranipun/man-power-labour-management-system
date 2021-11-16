@@ -8,7 +8,7 @@ const CompanyContainer = () => {
         <div>
             <div >
                 <h4 className="py-3 text-center">Company Management</h4>
-                <Tabs defaultActiveKey="second">
+                <Tabs transition={true} defaultActiveKey="first">
                     <Tab eventKey="first" title="Add Company">
                         <AddJobComponent/>
                     </Tab>

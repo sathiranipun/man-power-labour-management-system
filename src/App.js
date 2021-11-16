@@ -10,15 +10,26 @@ import LoginContainer from "./containers/LoginContainer";
 import Sidenavbar from "./components/Sidenavbar";
 import AddJobComponent from "./components/CompanyComponent/AddJobComponent";
 import { GuardedRoute } from "./services/GuardedRoute";
+import { authStateChangeHandle, login } from "./services/UserService";
+import { useStateValue } from "./services/ContextProvider";
 
 
 const App = () => {
   const location = useLocation();
   const [loginUI, setLoginUI] = useState(false);
-  
+
   useEffect(() => (getApps().length ? getApp() : initializeApp(firebaseConfig)), []);
 
-  useEffect(() => setLoginUI(location.pathname.includes('login')),[location])
+  useEffect(() => setLoginUI(location.pathname.includes('login')), [location]);
+  const { userState, globalDispatch, userDispatch } = useStateValue();
+  useEffect(async () => {
+    await authStateChangeHandle(globalDispatch, userDispatch);
+    //await login("nipun299233@gmail.com", 'nipun123');
+  }, []);
+
+  useEffect(() => {
+    console.log(userState);
+  }, [userState]);
 
   return (
     <div className="App">

@@ -21,7 +21,11 @@ const App = () => {
   useEffect(() => (getApps().length ? getApp() : initializeApp(firebaseConfig)), []);
 
   useEffect(() => setLoginUI(location.pathname.includes('login')), [location]);
+
+  //Getting user and globle data
   const { userState, globalDispatch, userDispatch } = useStateValue();
+
+  //Run the auth state listner
   useEffect(async () => {
     await authStateChangeHandle(globalDispatch, userDispatch);
     //await login("nipun299233@gmail.com", 'nipun123');

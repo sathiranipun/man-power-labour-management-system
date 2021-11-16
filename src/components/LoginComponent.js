@@ -5,16 +5,12 @@ import './LoginComponent.css'
 const LoginComponent = () => {
     return (
         <div>
-            <div className="row">
-                <div className="col-6">
+            <div className="row login-background">
+                <div className="col">
                 </div>
                 <div className="col-6 p-4 login-card">
                     <div className="card">
                         <Form className="p-4">
-                            <Form.Group className="mb-3" controlId="formCompanyName">
-                                <Form.Label>Company Name</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Company Name" />
-                            </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formCompanyEmail">
                                 <Form.Label>Email address</Form.Label>
@@ -22,13 +18,8 @@ const LoginComponent = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formCompanyContact">
-                                <Form.Label>Company Contact Number</Form.Label>
-                                <Form.Control type="number" placeholder="Enter Company Contact Number" />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="formCompanyAddress">
-                                <Form.Label>Company Address</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Address" />
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" placeholder="Enter your password" />
                             </Form.Group>
 
                             <Button variant="primary" type="submit">
@@ -36,6 +27,8 @@ const LoginComponent = () => {
                             </Button>
                         </Form>
                     </div>
+                </div>
+                <div className="col">
                 </div>
             </div>
         </div>

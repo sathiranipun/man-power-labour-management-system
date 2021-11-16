@@ -4,12 +4,10 @@ import { Navigate, Route } from 'react-router-dom';
 
 export const GuardedRoute = ({ Component, ...rest }) => {
     const { userState, globalState } = useStateValue();
-    // const [isLoggedIn, setIsLoggedIn] = useState(userState.loggedUserData !== null && globalState.loggedIn);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(userState.loggedUserData !== null && globalState.loggedIn);
 
     useEffect(() => {
-        // setIsLoggedIn(userState.loggedUserData !== null && globalState.loggedIn);
-        setIsLoggedIn(true);
+        setIsLoggedIn(userState.loggedUserData !== null && globalState.loggedIn);
     }, [userState.loggedUserData, globalState.loggedIn]);
 
     if (isLoggedIn) {

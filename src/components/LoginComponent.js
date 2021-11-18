@@ -24,10 +24,12 @@ const LoginComponent = () => {
 
     return (
         <div>
-            <div className="row login-background">
-                <div className="col">
-                </div>
-                <div className="col-6 p-4 login-card">
+            <div className="row login-background justify-content-center ">
+
+                {/* <div className="col">
+                </div> */}
+                <h2 className="text-center my-4 pt-4">Man Power Labour Management System</h2>
+                <div className="col-6 p-4 login-card ">
                     <div className="card">
                         <Form className="p-4" onSubmit={(e) => handleLogin(e)}>
 
@@ -50,13 +52,13 @@ const LoginComponent = () => {
                             </Form.Group>
 
                             <Button variant="primary" type="submit">
-                                Submit
+                                Login
                             </Button>
                         </Form>
                     </div>
                 </div>
-                <div className="col">
-                </div>
+                {/* <div className="col">
+                </div> */}
             </div>
         </div>
     )

@@ -40,9 +40,10 @@ const UserContainer = () => {
     }
     const handleClose = () => setShow(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        await createUser(newUser);
+        console.log('asdasd')
+        // createUser(newUser);
     };
 
     const handleUpdate = async (e) => {

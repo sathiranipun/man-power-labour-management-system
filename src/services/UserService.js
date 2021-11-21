@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut,createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, getFirestore, getDoc, onSnapshot, setDoc, addDoc, deleteDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { globalActionTypes } from './Reducers/globalReducer';
 import { userActionTypes } from './Reducers/userReducer';
@@ -89,15 +89,16 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
 
 export const createUser = async (user) => {
     const db = getFirestore();
-    const userCollectionRef = collection(db,'users')
+    const auth = getAuth();
     try {
-        // admin should create an autheticated user....
-
-        await addDoc(userCollectionRef,{
+        const authUser = await createUserWithEmailAndPassword(auth,user.email,'testpassword')
+        await setDoc(doc(db,"users",authUser.user.uid),{
             name: user.name,
             isAdmin: user.isAdmin,
             email: user.email, 
+            uid:authUser.user.uid
         })
+        console.log('create successfully')
     } catch (error) {
         console.log(error);
     }

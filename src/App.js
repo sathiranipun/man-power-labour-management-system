@@ -9,7 +9,7 @@ import LabourContainer from "./containers/LabourContainer";
 import LoginContainer from "./containers/LoginContainer";
 import Sidenavbar from "./components/Sidenavbar";
 import LoginComponent from "./components/LoginComponent";
-import AddJobComponent from "./components/CompanyComponent/AddJobComponent";
+import JobComponent from "./components/CompanyComponent/JobComponent";
 import { GuardedRoute } from "./services/GuardedRoute";
 import { authStateChangeHandle, login, logout } from "./services/UserService";
 import { useStateValue } from "./services/ContextProvider";
@@ -58,12 +58,12 @@ const App = () => {
             <Route path="/company" exact element={<GuardedRoute Component={CompanyContainer} />} />
             <Route path="/labour" exact element={<GuardedRoute Component={LabourContainer} />} />
             {/* <Route path="/addcompany" exact>
-              <GuardedRoute Component={AddJobComponent} />
+              <GuardedRoute Component={JobComponent} />
             </Route> */}
             <Route path="/login" element={<LoginContainer />} />
             {/* <Route path="/company" element={<CompanyContainer />} />
             <Route path="/labour" element={<LabourContainer />} />
-            <Route path="/addcompany" element={<AddJobComponent />} /> */}
+            <Route path="/addcompany" element={<JobComponent />} /> */}
           </Routes>
         </div>
       </div>

@@ -14,6 +14,7 @@ import { GuardedRoute } from "./services/GuardedRoute";
 import { authStateChangeHandle, login, logout } from "./services/UserService";
 import { useStateValue } from "./services/ContextProvider";
 import { getAllLabours } from "./services/LabourService";
+import UserContainer from "./containers/UserContainer";
 
 
 const App = () => {
@@ -55,6 +56,7 @@ const App = () => {
         <div className="col p-0">
           <Routes>
             <Route path="/" exact element={<GuardedRoute Component={DashboardContainer} />} />
+            <Route path="/user" exact element={<GuardedRoute Component={UserContainer} />} />
             <Route path="/company" exact element={<GuardedRoute Component={CompanyContainer} />} />
             <Route path="/labour" exact element={<GuardedRoute Component={LabourContainer} />} />
             {/* <Route path="/addcompany" exact>

@@ -1,7 +1,8 @@
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, doc, getFirestore, getDoc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, getFirestore, getDoc, onSnapshot, setDoc, addDoc, deleteDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { globalActionTypes } from './Reducers/globalReducer';
 import { userActionTypes } from './Reducers/userReducer';
+
 
 let userDocSubscriber;
 
@@ -86,3 +87,55 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
     })
 };
 
+export const createUser = async (user) => {
+    const db = getFirestore();
+    const userCollectionRef = collection(db,'users')
+    try {
+        // admin should create an autheticated user....
+
+        await addDoc(userCollectionRef,{
+            name: user.name,
+            isAdmin: user.isAdmin,
+            email: user.email, 
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getUsers = async () => {
+    const db = getFirestore();
+    try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        let users = []
+        querySnapshot.forEach((doc) => {
+            users.push(doc.data())
+        });
+        return users;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const onUpdateUser = async (user) => {
+    const db = getFirestore();
+    const docRef = doc(db,"users",user.uid)
+    try {
+        await updateDoc(docRef,{
+            name:user.name,
+            email:user.email,
+            isAdmin:user.isAdmin,
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const deleteUser = async (uid) => {
+    const db = getFirestore();
+    try {
+        await deleteDoc(doc(db,"users",uid))
+    } catch (error) {
+        console.log(error);
+    }
+}

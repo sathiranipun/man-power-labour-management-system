@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Nav, Tabs, Tab } from "react-bootstrap";
 import AddCompanyComponent from '../components/CompanyComponent/AddCompanyComponent';
+import CompanyListComponent from '../components/CompanyComponent/CompanyListComponent';
 import JobComponent from '../components/CompanyComponent/JobComponent';
 
 
@@ -13,8 +14,8 @@ const CompanyContainer = () => {
                     <Tab eventKey="first" title="Add Company">
                         <AddCompanyComponent />
                     </Tab>
-                    <Tab eventKey="second" title="Edit Company">
-                        Edit Company
+                    <Tab eventKey="second" title="Company List">
+                        <CompanyListComponent />
                     </Tab>
                     <Tab eventKey="third" title="Job Requests">
                         <JobComponent />

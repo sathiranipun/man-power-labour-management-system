@@ -54,7 +54,7 @@ export const deleteCompany = async (companyUID) => {
 export const updateCompany = async (companyData) => {
     try {
         const db = getFirestore();
-        await updateDoc(doc(db, 'companies', companyData.uid), companyData);
+        await updateDoc(doc(db, 'companies', companyData.id), companyData);
     } catch (error) {
         console.log(error);
     }

@@ -1,7 +1,9 @@
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut,createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, getFirestore, getDoc, onSnapshot, setDoc, addDoc, deleteDoc, getDocs, updateDoc } from 'firebase/firestore';
+import {initializeApp,getApp,getApps} from 'firebase/app'
 import { globalActionTypes } from './Reducers/globalReducer';
 import { userActionTypes } from './Reducers/userReducer';
+import firebaseConfig from '../constants/firebaseConfig';
 
 
 let userDocSubscriber;
@@ -49,7 +51,7 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
                     userDocSubscriber = onSnapshot(doc(db, 'users', userID), {
                         next: async (userRef) => {
                             const userData = userRef.data();
-                            const user = (({ uid, email, name }) => ({ uid, email, name }))(userData);
+                            const user = (({ uid, email, name,isAdmin }) => ({ uid, email, name,isAdmin }))(userData);
                             console.log(user);
                             userDispatch({
                                 type: userActionTypes.SET_LOGGED_USER,
@@ -87,11 +89,16 @@ export const authStateChangeHandle = async (globalDispatch, userDispatch) => {
     })
 };
 
-export const createUser = async (user) => {
+export const createUser = async (user,globalDispatch) => {
+    const secondaryApp =  getApps().length > 1 ? getApp('SecondaryApp') : initializeApp(firebaseConfig,'SecondaryApp')
     const db = getFirestore();
-    const auth = getAuth();
+    const auth = getAuth(secondaryApp);
     try {
-        const authUser = await createUserWithEmailAndPassword(auth,user.email,'testpassword')
+        const authUser = await createUserWithEmailAndPassword(auth,user.email,user.password)
+        globalDispatch({
+            type: globalActionTypes.SET_GLOBAL_AUTH_LOADING,
+            authLoading: false,
+        });
         await setDoc(doc(db,"users",authUser.user.uid),{
             name: user.name,
             isAdmin: user.isAdmin,
@@ -134,9 +141,11 @@ export const onUpdateUser = async (user) => {
 
 export const deleteUser = async (uid) => {
     const db = getFirestore();
-    try {
-        await deleteDoc(doc(db,"users",uid))
-    } catch (error) {
-        console.log(error);
+    if(window.confirm("Are you sure to delete this user?")){
+        try {
+            await deleteDoc(doc(db,"users",uid))
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

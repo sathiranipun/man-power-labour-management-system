@@ -4,12 +4,13 @@ import {Form,Button,Table, Modal } from 'react-bootstrap'
 import {createUser,getUsers,deleteUser,onUpdateUser} from '../services/UserService'
 
 const UserContainer = () => {
-    const { userState } = useStateValue();
+    const { userState, globalDispatch } = useStateValue();
     const [users, setUsers] = useState([])
     const [show, setShow] = useState(false);
     const [newUser, setNewUser] = useState({
         name:'',
         email:'',
+        password:'',
         isAdmin :false
     })
 
@@ -42,15 +43,15 @@ const UserContainer = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('asdasd')
-        // createUser(newUser);
+        createUser(newUser,globalDispatch);
     };
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        console.log(updateUser)
-        // await onUpdateUser(updateUser)
-        // handleClose()
+        await onUpdateUser(updateUser)
+        const updatedUsers = users.map(u => u.uid === updateUser.uid ? {...updateUser, name:updateUser.name, email:updateUser.email,isAdmin:updateUser.idAdmin } : u);
+        setUsers(updatedUsers)
+        handleClose()
     };
 
     const onEdit = async (user) =>{
@@ -123,27 +124,35 @@ const UserContainer = () => {
                 </Modal.Footer>
             </Modal>
             <h4 className="py-3 text-center">User Management</h4>
-            <div className="row p-2">
-            <div className="col-12 col-lg-6">
-            <Form className="p-4" style={{backgroundColor:'#ffffff'}} onSubmit={handleSubmit}>
-                <h3>Add User</h3>
-                <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter name" value={newUser.name} name="name" onChange={onChangeHandle} />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" value={newUser.email} name="email" onChange={onChangeHandle}/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Check type="checkbox" label="Is admin?" checked={newUser.isAdmin} name="isAdmin" onChange={onChangeHandle}/>
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Create User
-                </Button>
-            </Form>
-            </div>
-            </div>
+            {
+                userState.loggedUserData.isAdmin && (
+                    <div className="row p-2">
+                    <div className="col-12 col-lg-6">
+                    <Form className="p-4" style={{backgroundColor:'#ffffff'}} onSubmit={handleSubmit}>
+                        <h3>Add User</h3>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control type="text" placeholder="Enter name" value={newUser.name} name="name" onChange={onChangeHandle} />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="Enter email" value={newUser.email} name="email" onChange={onChangeHandle}/>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="passoword" placeholder="Enter password" value={newUser.password} name="password" onChange={onChangeHandle}/>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Check type="checkbox" label="Is admin?" checked={newUser.isAdmin} name="isAdmin" onChange={onChangeHandle}/>
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Create User
+                        </Button>
+                    </Form>
+                    </div>
+                    </div>
+                )
+            }
 
             <div className="row mt-4 p-4" >
                 <div className="col-12 p-4" style={{backgroundColor:'#ffffff'}} >
@@ -155,7 +164,12 @@ const UserContainer = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Is Admin</th>
-                            <th></th>
+                            {
+                                    userState.loggedUserData.isAdmin && (
+                                        <th></th>
+                                    ) 
+                                }
+                            
                             </tr>
                         </thead>
                         <tbody>
@@ -166,7 +180,11 @@ const UserContainer = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.isAdmin == true ? 'True' : 'False'}</td>
-                                <td><button className="btn btn-success" onClick={() => onEdit(user)}>Edit</button> <button disabled={user.uid === userState.loggedUserData.uid } className="btn btn-danger" onClick={() => deleteUser(user.uid)}>Delete</button></td>
+                                {
+                                    userState.loggedUserData.isAdmin && (
+                                        <td><button className="btn btn-success" onClick={() => onEdit(user)}>Edit</button> <button disabled={user.uid === userState.loggedUserData.uid } className="btn btn-danger" onClick={() => deleteUser(user.uid)}>Delete</button></td>
+                                    ) 
+                                }
                                 </tr> 
                             ))
                         }

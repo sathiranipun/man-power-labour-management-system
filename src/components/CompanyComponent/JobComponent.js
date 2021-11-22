@@ -83,7 +83,7 @@ const JobComponent = () => {
     }
 
     return (
-        <Container style={{ marginTop: 15 }} >
+        <div style={{ marginTop: 15 }} >
             <Modal
                 show={showModal}
                 onHide={() => setShowModal(false)}
@@ -145,9 +145,9 @@ const JobComponent = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Stack gap={3} >
+            <Stack gap={3} className="p-2">
 
-                <Row>
+                <Row >
                     <Col md>
                         <Card>
                             <Card.Body>
@@ -253,7 +253,7 @@ const JobComponent = () => {
 
 
 
-        </Container>
+        </div>
     )
 }
 

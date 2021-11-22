@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form } from "react-bootstrap";
 
-const AddJobComponent = () => {
+const AddCompanyComponent = () => {
     return (
         <div>
             <Form className="p-4">
@@ -33,4 +33,4 @@ const AddJobComponent = () => {
     )
 }
 
-export default AddJobComponent
+export default AddCompanyComponent

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Modal, ModalBody, Table, Button } from 'react-bootstrap'
-import { getAllCompanies, updateCompany } from '../../services/companyService'
+import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
+import { deleteCompany, getAllCompanies, updateCompany } from '../../services/companyService'
 import { useStateValue } from '../../services/ContextProvider'
 
 const CompanyListComponent = () => {
 
     const { companyList, companyDispatch } = useStateValue();
     const [updateModalShow, setUpdateModalShow] = useState(false);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+    const [deletingCompany, setDeletingCompany] = useState({
+        companyName: '',
+        id: '',
+    });
     const [updatingCompany, setUpdatingCompany] = useState({
         id: '',
         companyName: '',
@@ -43,8 +49,36 @@ const CompanyListComponent = () => {
         setUpdateModalShow(false);
     }
 
+    const onDeleteClick = (company) => {
+        setDeletingCompany(company);
+        setDeleteModalShow(true);
+    }
+
+    const handleCompanyDelete = async (e) => {
+        setIsDeleteLoading(true);
+        await deleteCompany(deletingCompany.id);
+        setIsDeleteLoading(false);
+        setDeleteModalShow(false);
+    }
     return (
         <div>
+            <Modal show={deleteModalShow} onHide={() => setDeleteModalShow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Delete Company?</Modal.Title>
+                </Modal.Header>
+                <ModalBody>
+                    <Alert variant={'light'}><b>UID:</b>{` ${deletingCompany.id}`}</Alert>
+                    <Alert variant={'light'}><b>Name:</b>{` ${deletingCompany.companyName}`}</Alert>
+                    {isDeleteLoading &&
+                        <div class="spinner-border text-primary" role="status"></div>
+                    }
+                    {!isDeleteLoading &&
+                        <Button variant="danger" type="submit" onClick={handleCompanyDelete}>
+                            Confirm {` & `} Delete
+                        </Button>
+                    }
+                </ModalBody>
+            </Modal>
             <Modal show={updateModalShow} onHide={() => setUpdateModalShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Company</Modal.Title>
@@ -118,7 +152,7 @@ const CompanyListComponent = () => {
                                         <td>{company.location}</td>
                                         <td>
                                             <button className="btn btn-success" onClick={() => { onEditClick(company) }}>Edit</button>
-                                            <button className="btn btn-danger" onClick={() => { }}>Delete</button>
+                                            <button className="btn btn-danger" onClick={() => { onDeleteClick(company) }}>Delete</button>
                                         </td>
                                     </tr>
                                 ))

@@ -49,7 +49,7 @@ const UserContainer = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         await onUpdateUser(updateUser)
-        const updatedUsers = users.map(u => u.uid === updateUser.uid ? {...updateUser, name:updateUser.name, email:updateUser.email,isAdmin:updateUser.idAdmin } : u);
+        const updatedUsers = users.map(u => u.uid === updateUser.uid ? {...updateUser, name:updateUser.name, email:updateUser.email,isAdmin:updateUser.isAdmin } : u);
         setUsers(updatedUsers)
         handleClose()
     };
@@ -73,7 +73,7 @@ const UserContainer = () => {
         if(e.target.name ==='isAdmin'){
             setUpdateUser({
                 ...updateUser,
-                [e.target.name]: !updateUser.isAdmin
+                [e.target.name]: e.target.checked
             }) 
         }else{
             const value = e.target.value;
@@ -179,7 +179,7 @@ const UserContainer = () => {
                                 <td>{user.uid}</td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>{user.isAdmin == true ? 'True' : 'False'}</td>
+                                <td>{user.isAdmin === true ? 'True' : 'False'}</td>
                                 {
                                     userState.loggedUserData.isAdmin && (
                                         <td><button className="btn btn-success" onClick={() => onEdit(user)}>Edit</button> <button disabled={user.uid === userState.loggedUserData.uid } className="btn btn-danger" onClick={() => deleteUser(user.uid)}>Delete</button></td>

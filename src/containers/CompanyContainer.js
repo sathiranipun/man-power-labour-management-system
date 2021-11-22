@@ -1,6 +1,7 @@
 import React from 'react'
-import { Button, Nav,Tabs,Tab } from "react-bootstrap";
-import AddJobComponent from '../components/CompanyComponent/AddJobComponent';
+import { Button, Nav, Tabs, Tab } from "react-bootstrap";
+import AddCompanyComponent from '../components/CompanyComponent/AddCompanyComponent';
+import JobComponent from '../components/CompanyComponent/JobComponent';
 
 
 const CompanyContainer = () => {
@@ -10,19 +11,19 @@ const CompanyContainer = () => {
                 <h4 className="py-3 text-center">Company Management</h4>
                 <Tabs transition={true} defaultActiveKey="first">
                     <Tab eventKey="first" title="Add Company">
-                        <AddJobComponent/>
+                        <AddCompanyComponent />
                     </Tab>
                     <Tab eventKey="second" title="Edit Company">
-                    Edit Company
+                        Edit Company
                     </Tab>
                     <Tab eventKey="third" title="Job Requests">
-                    Job Requests
+                        <JobComponent />
                     </Tab>
                     <Tab eventKey="fourth" title="Payments">
-                    Payments
+                        Payments
                     </Tab>
                     <Tab eventKey="fifth" title="Services">
-                    Services
+                        Services
                     </Tab>
                 </Tabs>
             </div>

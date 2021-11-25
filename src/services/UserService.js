@@ -6,7 +6,7 @@ import { userActionTypes } from './Reducers/userReducer';
 import firebaseConfig from '../constants/firebaseConfig';
 
 
-let userDocSubscriber;
+let userDocSubscriber = null;
 
 export const login = async (email, password) => {
     const auth = getAuth();

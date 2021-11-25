@@ -14,10 +14,7 @@ const LabourContainer = () => {
                     <Tab eventKey="second" title="Labour List">
                         <LabourListComponent/>
                     </Tab>
-                    <Tab eventKey="third" title="Assigned Labours">
-                        Job Assign
-                    </Tab>
-                    <Tab eventKey="fourth" title="Payments">
+                    <Tab eventKey="third" title="Payments">
                         Payments
                     </Tab>
                 </Tabs>

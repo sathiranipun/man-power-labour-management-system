@@ -67,8 +67,9 @@ const CompanyListComponent = () => {
                     <Modal.Title>Delete Company?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Alert variant={'light'}><b>UID:</b>{` ${deletingCompany.id}`}</Alert>
-                    <Alert variant={'light'}><b>Name:</b>{` ${deletingCompany.companyName}`}</Alert>
+                    <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span>{` ${deletingCompany.id}`}</span></Form.Label>
+                    <Form.Label className="mb-3 px-4"><b>Name :&nbsp;</b><span>{` ${deletingCompany.companyName}`}</span></Form.Label>
+                    <p className="px-2">Do you really want to delete this record? This process can not be undone.</p>
                     {isDeleteLoading &&
                         <div class="spinner-border text-primary" role="status"></div>
                     }

@@ -24,7 +24,7 @@ const CompanyListComponent = () => {
 
 
     useEffect(async () => {
-        await getAllCompanies(companyDispatch)
+        await getAllCompanies(companyDispatch);
     }, []);
 
     const handleChange = (e) => {

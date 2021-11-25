@@ -81,8 +81,9 @@ const LabourListComponent = () => {
                     <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Alert variant={'light'}><b>UID:</b>{` ${deletingLabour.id}`}</Alert>
-                    <Alert variant={'light'}><b>Name:</b>{` ${deletingLabour.name}`}</Alert>
+                <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span>{` ${deletingLabour.id}`}</span></Form.Label>
+                    <Form.Label className="mb-3 px-4"><b>Name :&nbsp;</b><span>{` ${deletingLabour.name}`}</span></Form.Label>
+                    <p className="px-2">Do you really want to delete this record? This process can not be undone.</p>
                     {isDeleteLoading &&
                         <div class="spinner-border text-primary" role="status"></div>
                     }

@@ -16,7 +16,13 @@
 }
 
 .sidenavbar li:last-child{
+    margin-top:20px !important;
     border-bottom: none;
+    /* background-color: #008cff;
+    color: white !important;
+    width: 100px;  
+    height: 40px;
+    border-radius: 10%; */
 }
 
 .sidenavbar li:hover{

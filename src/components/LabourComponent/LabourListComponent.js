@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
 import { useStateValue } from '../../services/ContextProvider'
-import { getAllLabours, updateLabour } from '../../services/LabourService';
+import { deleteLabour, getAllLabours, updateLabour } from '../../services/LabourService';
 
 
 const LabourListComponent = () => {
@@ -63,34 +63,34 @@ const LabourListComponent = () => {
         setUpdateModalShow(false);
     }
 
-    // const onDeleteClick = (company) => {
-    //     setDeletingCompany(company);
-    //     setDeleteModalShow(true);
-    // }
+    const onDeleteClick = (labour) => {
+        setDeletingLabour(labour);
+        setDeleteModalShow(true);
+    }
 
-    // const handleLabourDelete = async (e) => {
-    //     setIsDeleteLoading(true);
-    //     await deleteLabour(deletingCompany.id);
-    //     setIsDeleteLoading(false);
-    //     setDeleteModalShow(false);
-    // }
+    const handleLabourDelete = async (e) => {
+        setIsDeleteLoading(true);
+        await deleteLabour(deletingLabour.id);
+        setIsDeleteLoading(false);
+        setDeleteModalShow(false);
+    }
     return (
         <div>
-            <Modal show={deleteModalShow}>
+            <Modal show={deleteModalShow} closeButton onHide={() => setDeleteModalShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Alert variant={'light'}><b>UID:</b>{ }</Alert>
-                    <Alert variant={'light'}><b>Name:</b>{ }</Alert>
-                    {/* {isDeleteLoading &&
+                    <Alert variant={'light'}><b>UID:</b>{` ${deletingLabour.id}`}</Alert>
+                    <Alert variant={'light'}><b>Name:</b>{` ${deletingLabour.name}`}</Alert>
+                    {isDeleteLoading &&
                         <div class="spinner-border text-primary" role="status"></div>
-                    } */}
-                    {/* {!isDeleteLoading && */}
-                    <Button variant="danger" type="submit">
-                        Confirm {` & `} Delete
-                    </Button>
-                    {/* } */}
+                    }
+                    {!isDeleteLoading &&
+                        <Button variant="danger" type="submit" onClick={handleLabourDelete}>
+                            Confirm {` & `} Delete
+                        </Button>
+                    }
                 </ModalBody>
             </Modal>
 
@@ -219,7 +219,7 @@ const LabourListComponent = () => {
                                                         skills: labour.skills.map(e => ` ${e}`).toString()
                                                     })
                                                 }} >Edit</button>
-                                            <button className="btn btn-danger" >Delete</button>
+                                            <button className="btn btn-danger" onClick={() => onDeleteClick(labour)} >Delete</button>
                                         </td>
                                         <td>
                                             <button className="btn btn-primary" onClick={() =>setAssignModalShow(true)}>Assign</button>

@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
+import { useStateValue } from '../../services/ContextProvider'
+import { getAllLabours } from '../../services/LabourService';
 
 
 const LabourListComponent = () => {
 
+    const { labourState, labourDispatch } = useStateValue();
     // const [updateModalShow, setUpdateModalShow] = useState(false);
     // const [deleteModalShow, setDeleteModalShow] = useState(false);
     // const [isUpdateLoading, setIsUpdateLoading] = useState(false);
     // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
     // const [deletingCompany, setDeletingCompany] = useState({});
 
+    useEffect(async () => {
+        await getAllLabours(labourDispatch);
+    }, []);
+
+    useEffect(() => {
+        console.log(labourState);
+    }, [labourState]);
 
     // const handleChange = (e) => {
     //     setUpdatingLabour({
@@ -51,15 +61,15 @@ const LabourListComponent = () => {
                     <Modal.Title>Remove Labour?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Alert variant={'light'}><b>UID:</b>{}</Alert>
-                    <Alert variant={'light'}><b>Name:</b>{}</Alert>
+                    <Alert variant={'light'}><b>UID:</b>{ }</Alert>
+                    <Alert variant={'light'}><b>Name:</b>{ }</Alert>
                     {/* {isDeleteLoading &&
                         <div class="spinner-border text-primary" role="status"></div>
                     } */}
                     {/* {!isDeleteLoading && */}
-                        <Button variant="danger" type="submit">
-                            Confirm {` & `} Delete
-                        </Button>
+                    <Button variant="danger" type="submit">
+                        Confirm {` & `} Delete
+                    </Button>
                     {/* } */}
                 </ModalBody>
             </Modal>
@@ -105,12 +115,12 @@ const LabourListComponent = () => {
                         </Form.Group>
 
                         {/* {isUpdateLoading && */}
-                            {/* <div class="spinner-border text-primary" role="status"></div> */}
+                        {/* <div class="spinner-border text-primary" role="status"></div> */}
                         {/* } */}
                         {/* {!isUpdateLoading && */}
-                            <Button variant="primary" type="submit">
-                                Update Labour
-                            </Button>
+                        <Button variant="primary" type="submit">
+                            Update Labour
+                        </Button>
                         {/* } */}
                     </Form>
                 </ModalBody>
@@ -132,12 +142,14 @@ const LabourListComponent = () => {
                         </thead>
                         <tbody>
                             {
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                labourState.labourList.length > 0 &&
+                                labourState.labourList.map(labour => (
+                                    <tr key={labour.id}>
+                                        <td>{labour.name}</td>
+                                        <td>{labour.email}</td>
+                                        <td>{labour.contactNo}</td>
+                                        <td>{labour.address}</td>
+                                        <td>{labour.skills.map(e => `${e}, `)}</td>
                                         <td></td>
                                         <td>
                                             <button className="btn btn-success" >Edit</button>
@@ -147,6 +159,7 @@ const LabourListComponent = () => {
                                             <button className="btn btn-primary" >Assign</button>
                                         </td>
                                     </tr>
+                                ))
 
                             }
                         </tbody>
@@ -157,4 +170,4 @@ const LabourListComponent = () => {
     )
 }
 
-export default LabourListComponent
+export default LabourListComponent;

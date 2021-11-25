@@ -49,7 +49,7 @@ export const deleteLabour = async (labourUID) => {
 export const updateLabour = async (labourData) => {
     try {
         const db = getFirestore();
-        await updateDoc(doc(db, 'labours', labourData.uid), labourData);
+        await updateDoc(doc(db, 'labours', labourData.id), labourData);
     } catch (error) {
         console.log(error);
     }

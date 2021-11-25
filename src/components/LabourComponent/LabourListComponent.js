@@ -3,68 +3,67 @@ import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
 
 
 const LabourListComponent = () => {
+    const [assignModalShow, setAssignModalShow] = useState(false);
+    const handleClose = () => setAssignModalShow(false);
+    const handleShow = () => setAssignModalShow(true);
 
-    // const [updateModalShow, setUpdateModalShow] = useState(false);
-    // const [deleteModalShow, setDeleteModalShow] = useState(false);
-    // const [isUpdateLoading, setIsUpdateLoading] = useState(false);
-    // const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+    const [updateModalShow, setUpdateModalShow] = useState(false);
+    const [deleteModalShow, setDeleteModalShow] = useState(false);
+    const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false);
     // const [deletingCompany, setDeletingCompany] = useState({});
 
 
-    // const handleChange = (e) => {
-    //     setUpdatingLabour({
-    //         ...updatingLabour,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
+    const handleChange = (e) => {
+        // setUpdatingLabour({
+        //     ...updatingLabour,
+        //     [e.target.name]: e.target.value,
+        // });
+    };
 
-    // const onEditClick = () => {
-    //     setUpdateModalShow(true);
-    //     setUpdatingCompany({
-    //         ...company,
-    //     })
-    // }
+    const onEditClick = () => {
+        setUpdateModalShow(true);
+    }
 
-    // const handleLabourUpdate = async (e) => {
-    //     e.preventDefault();
-    //     setIsUpdateLoading(true);
-    //     await updateLabour(updatingCompany);
-    //     setIsUpdateLoading(false);
-    //     setUpdateModalShow(false);
-    // }
+    const handleLabourUpdate = async (e) => {
+        // e.preventDefault();
+        setIsUpdateLoading(true);
+        // await updateLabour(updatingCompany);
+        // setIsUpdateLoading(false);
+        // setUpdateModalShow(false);
+    }
 
-    // const onDeleteClick = (company) => {
-    //     setDeletingCompany(company);
-    //     setDeleteModalShow(true);
-    // }
+    const onDeleteClick = () => {
+        setDeleteModalShow(true);
+    }
 
-    // const handleLabourDelete = async (e) => {
-    //     setIsDeleteLoading(true);
-    //     await deleteLabour(deletingCompany.id);
-    //     setIsDeleteLoading(false);
-    //     setDeleteModalShow(false);
-    // }
+    const handleLabourDelete = async (e) => {
+        setIsDeleteLoading(true);
+        setIsDeleteLoading(false);
+        setDeleteModalShow(false);
+    }
     return (
         <div>
-            <Modal>
+            <Modal show={deleteModalShow}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Remove Labour?</Modal.Title>
+                    <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Alert variant={'light'}><b>UID:</b>{}</Alert>
-                    <Alert variant={'light'}><b>Name:</b>{}</Alert>
+                    <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span> 0133200</span></Form.Label>
+                    <Form.Label className="mb-3 px-4"><b>Name :&nbsp;</b><span> Kapila Perera</span></Form.Label>
+                    <p className="px-2">Do you really want to delete this record? This process can not be undone.</p>
                     {/* {isDeleteLoading &&
                         <div class="spinner-border text-primary" role="status"></div>
                     } */}
                     {/* {!isDeleteLoading && */}
-                        <Button variant="danger" type="submit">
-                            Confirm {` & `} Delete
-                        </Button>
+                    <Button variant="danger" type="submit">
+                        Confirm {` & `} Delete
+                    </Button>
                     {/* } */}
                 </ModalBody>
             </Modal>
 
-            <Modal>
+            <Modal show={updateModalShow} onHide={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Labour</Modal.Title>
                 </Modal.Header>
@@ -73,7 +72,7 @@ const LabourListComponent = () => {
                         <Form.Group className="mb-3">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
-                                type="text" placeholder="Enter name"
+                                type="text" placeholder="Enter Name"
                                 value=""
                                 onChange=""
                                 name="LabourName" />
@@ -81,7 +80,7 @@ const LabourListComponent = () => {
                         <Form.Group className="mb-3">
                             <Form.Label>Contact No</Form.Label>
                             <Form.Control
-                                type="text" placeholder="Enter contact No"
+                                type="text" placeholder="Enter Contact No"
                                 value=""
                                 onChange=""
                                 name="contactNo" />
@@ -105,16 +104,48 @@ const LabourListComponent = () => {
                         </Form.Group>
 
                         {/* {isUpdateLoading && */}
-                            {/* <div class="spinner-border text-primary" role="status"></div> */}
+                        {/* <div class="spinner-border text-primary" role="status"></div> */}
                         {/* } */}
                         {/* {!isUpdateLoading && */}
-                            <Button variant="primary" type="submit">
-                                Update Labour
-                            </Button>
+                        <Button variant="primary" type="submit">
+                            Update
+                        </Button>
                         {/* } */}
                     </Form>
                 </ModalBody>
             </Modal>
+
+            <Modal show={assignModalShow} onHide={handleShow}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Assign Labour</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form className="p-4" style={{ backgroundColor: '#ffffff' }}>
+                        <Form.Label className="mb-3">Name : <span> Kapila Perera</span></Form.Label>
+                        <Form.Group className="mb-3" controlId="formLabourName">
+                            <Form.Label>Company</Form.Label>
+                            <Form.Select  >
+                                <option>Select Company</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formCompanyEmail">
+                            <Form.Label>Job</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Job " />
+                        </Form.Group>
+
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Assign
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <div className="row mt-4 p-4">
                 <div className="col-12 p-4">
                     <Table striped bordered hover className="mt-4">
@@ -132,21 +163,21 @@ const LabourListComponent = () => {
                         </thead>
                         <tbody>
                             {
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <button className="btn btn-success" >Edit</button>
-                                            <button className="btn btn-danger" >Delete</button>
-                                        </td>
-                                        <td>
-                                            <button className="btn btn-primary" >Assign</button>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <button className="btn btn-success" onClick={() => { onEditClick() }} >Edit</button>
+                                        <button className="btn btn-danger" onClick={() => { onDeleteClick() }}>Delete</button>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-primary" onClick={handleShow}>Assign</button>
+                                    </td>
+                                </tr>
 
                             }
                         </tbody>

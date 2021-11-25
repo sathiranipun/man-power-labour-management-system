@@ -36,7 +36,7 @@ const AddLabourComponent = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formLabourAddress">
-                    <Form.Label>Company Address</Form.Label>
+                    <Form.Label>Labour Address</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Enter Address"

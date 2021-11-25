@@ -24,7 +24,7 @@ const CompanyListComponent = () => {
 
 
     useEffect(async () => {
-        await getAllCompanies(companyDispatch)
+        await getAllCompanies(companyDispatch);
     }, []);
 
     const handleChange = (e) => {
@@ -144,7 +144,7 @@ const CompanyListComponent = () => {
                         <tbody>
                             {
                                 companyList.companyList.length > 0 && companyList.companyList.map(company => (
-                                    <tr>
+                                    <tr key={company.id} >
                                         <td>{company.id}</td>
                                         <td>{company.companyName}</td>
                                         <td>{company.email}</td>

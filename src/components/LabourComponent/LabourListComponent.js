@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
+import { useStateValue } from '../../services/ContextProvider'
+import { getAllLabours, updateLabour } from '../../services/LabourService';
 
 
 const LabourListComponent = () => {
@@ -7,41 +9,71 @@ const LabourListComponent = () => {
     const handleClose = () => setAssignModalShow(false);
     const handleShow = () => setAssignModalShow(true);
 
+    const { labourState, labourDispatch } = useStateValue();
     const [updateModalShow, setUpdateModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isUpdateLoading, setIsUpdateLoading] = useState(false);
     const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-    // const [deletingCompany, setDeletingCompany] = useState({});
+    const [deletingLabour, setDeletingLabour] = useState({
+        name: '',
+        id: ''
+    });
 
+    const [updatingLabour, setUpdatingLabour] = useState({
+        id: '',
+        name: '',
+        contactNo: '',
+        email: '',
+        address: '',
+        skills: '',
+        location: ''
+    });
+
+    useEffect(async () => {
+        await getAllLabours(labourDispatch);
+    }, []);
+
+    useEffect(() => {
+        console.log(labourState);
+    }, [labourState]);
 
     const handleChange = (e) => {
-        // setUpdatingLabour({
-        //     ...updatingLabour,
-        //     [e.target.name]: e.target.value,
-        // });
+        setUpdatingLabour({
+            ...updatingLabour,
+            [e.target.name]: e.target.value,
+        });
     };
 
-    const onEditClick = () => {
+    const onEditClick = (labour) => {
         setUpdateModalShow(true);
+        setUpdatingLabour({
+            ...labour,
+        });
     }
 
     const handleLabourUpdate = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         setIsUpdateLoading(true);
-        // await updateLabour(updatingCompany);
-        // setIsUpdateLoading(false);
-        // setUpdateModalShow(false);
+        console.log(updatingLabour.skills);
+        await updateLabour({
+            ...updatingLabour,
+            skills: updatingLabour.skills.split(",").map(e => e.trim())
+        });
+        setIsUpdateLoading(false);
+        setUpdateModalShow(false);
     }
 
-    const onDeleteClick = () => {
-        setDeleteModalShow(true);
-    }
+    // const onDeleteClick = (company) => {
+    //     setDeletingCompany(company);
+    //     setDeleteModalShow(true);
+    // }
 
-    const handleLabourDelete = async (e) => {
-        setIsDeleteLoading(true);
-        setIsDeleteLoading(false);
-        setDeleteModalShow(false);
-    }
+    // const handleLabourDelete = async (e) => {
+    //     setIsDeleteLoading(true);
+    //     await deleteLabour(deletingCompany.id);
+    //     setIsDeleteLoading(false);
+    //     setDeleteModalShow(false);
+    // }
     return (
         <div>
             <Modal show={deleteModalShow}>
@@ -49,9 +81,8 @@ const LabourListComponent = () => {
                     <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span> 0133200</span></Form.Label>
-                    <Form.Label className="mb-3 px-4"><b>Name :&nbsp;</b><span> Kapila Perera</span></Form.Label>
-                    <p className="px-2">Do you really want to delete this record? This process can not be undone.</p>
+                    <Alert variant={'light'}><b>UID:</b>{ }</Alert>
+                    <Alert variant={'light'}><b>Name:</b>{ }</Alert>
                     {/* {isDeleteLoading &&
                         <div class="spinner-border text-primary" role="status"></div>
                     } */}
@@ -63,59 +94,67 @@ const LabourListComponent = () => {
                 </ModalBody>
             </Modal>
 
-            <Modal show={updateModalShow} onHide={false}>
+            <Modal show={updateModalShow} onHide={() => setUpdateModalShow(false)} >
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Labour</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                    <Form className="p-2" style={{ backgroundColor: '#ffffff' }} >
+                    <Form className="p-2" style={{ backgroundColor: '#ffffff' }} onSubmit={handleLabourUpdate}>
                         <Form.Group className="mb-3">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
-                                type="text" placeholder="Enter Name"
-                                value=""
-                                onChange=""
-                                name="LabourName" />
+                                type="text" placeholder="Enter name"
+                                value={updatingLabour.name}
+                                onChange={handleChange}
+                                name="name" />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Contact No</Form.Label>
                             <Form.Control
-                                type="text" placeholder="Enter Contact No"
-                                value=""
-                                onChange=""
+                                type="text" placeholder="Enter contact No"
+                                value={updatingLabour.contactNo}
+                                onChange={handleChange}
                                 name="contactNo" />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Contact No</Form.Label>
+                            <Form.Control
+                                type="email" placeholder="Enter email"
+                                value={updatingLabour.email}
+                                onChange={handleChange}
+                                name="email" />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Address</Form.Label>
                             <Form.Control
                                 type="text" placeholder="Enter address"
-                                value=""
-                                onChange=""
-                                name="location" />
+                                value={updatingLabour.address}
+                                onChange={handleChange}
+                                name="address" />
                         </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label>Labour Skills</Form.Label>
                             <Form.Control
                                 type="text" placeholder="Enter Labour Skills"
-                                value=""
-                                onChange=""
+                                value={updatingLabour.skills}
+                                onChange={handleChange}
                                 name="skills" />
                         </Form.Group>
 
-                        {/* {isUpdateLoading && */}
-                        {/* <div class="spinner-border text-primary" role="status"></div> */}
-                        {/* } */}
-                        {/* {!isUpdateLoading && */}
-                        <Button variant="primary" type="submit">
-                            Update
-                        </Button>
-                        {/* } */}
+                        {isUpdateLoading &&
+                            <div class="spinner-border text-primary" role="status"></div>
+                        }
+                        {!isUpdateLoading &&
+                            <Button variant="primary" type="submit">
+                                Update Labour
+                            </Button>
+                        }
                     </Form>
                 </ModalBody>
             </Modal>
 
-            <Modal show={assignModalShow} onHide={handleShow}>
+            <Modal show={assignModalShow} closeButton onHide={() => setAssignModalShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Assign Labour</Modal.Title>
                 </Modal.Header>
@@ -163,21 +202,30 @@ const LabourListComponent = () => {
                         </thead>
                         <tbody>
                             {
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <button className="btn btn-success" onClick={() => { onEditClick() }} >Edit</button>
-                                        <button className="btn btn-danger" onClick={() => { onDeleteClick() }}>Delete</button>
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-primary" onClick={handleShow}>Assign</button>
-                                    </td>
-                                </tr>
+                                labourState.labourList.length > 0 &&
+                                labourState.labourList.map(labour => (
+                                    <tr key={labour.id}>
+                                        <td>{labour.name}</td>
+                                        <td>{labour.email}</td>
+                                        <td>{labour.contactNo}</td>
+                                        <td>{labour.address}</td>
+                                        <td>{labour.skills.map(e => `${e}, `)}</td>
+                                        <td></td>
+                                        <td>
+                                            <button className="btn btn-success"
+                                                onClick={() => {
+                                                    onEditClick({
+                                                        ...labour,
+                                                        skills: labour.skills.map(e => ` ${e}`).toString()
+                                                    })
+                                                }} >Edit</button>
+                                            <button className="btn btn-danger" >Delete</button>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-primary" onClick={() =>setAssignModalShow(true)}>Assign</button>
+                                        </td>
+                                    </tr>
+                                ))
 
                             }
                         </tbody>
@@ -188,4 +236,4 @@ const LabourListComponent = () => {
     )
 }
 
-export default LabourListComponent
+export default LabourListComponent;

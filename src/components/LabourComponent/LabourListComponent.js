@@ -5,6 +5,9 @@ import { deleteLabour, getAllLabours, updateLabour } from '../../services/Labour
 
 
 const LabourListComponent = () => {
+    const [assignModalShow, setAssignModalShow] = useState(false);
+    const handleClose = () => setAssignModalShow(false);
+    const handleShow = () => setAssignModalShow(true);
 
     const { labourState, labourDispatch } = useStateValue();
     const [updateModalShow, setUpdateModalShow] = useState(false);
@@ -75,7 +78,7 @@ const LabourListComponent = () => {
         <div>
             <Modal show={deleteModalShow} closeButton onHide={() => setDeleteModalShow(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Remove Labour?</Modal.Title>
+                    <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
                     <Alert variant={'light'}><b>UID:</b>{` ${deletingLabour.id}`}</Alert>
@@ -150,6 +153,38 @@ const LabourListComponent = () => {
                     </Form>
                 </ModalBody>
             </Modal>
+
+            <Modal show={assignModalShow} closeButton onHide={() => setAssignModalShow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Assign Labour</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form className="p-4" style={{ backgroundColor: '#ffffff' }}>
+                        <Form.Label className="mb-3">Name : <span> Kapila Perera</span></Form.Label>
+                        <Form.Group className="mb-3" controlId="formLabourName">
+                            <Form.Label>Company</Form.Label>
+                            <Form.Select  >
+                                <option>Select Company</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formCompanyEmail">
+                            <Form.Label>Job</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Job " />
+                        </Form.Group>
+
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Assign
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <div className="row mt-4 p-4">
                 <div className="col-12 p-4">
                     <Table striped bordered hover className="mt-4">
@@ -187,7 +222,7 @@ const LabourListComponent = () => {
                                             <button className="btn btn-danger" onClick={() => onDeleteClick(labour)} >Delete</button>
                                         </td>
                                         <td>
-                                            <button className="btn btn-primary" >Assign</button>
+                                            <button className="btn btn-primary" onClick={() =>setAssignModalShow(true)}>Assign</button>
                                         </td>
                                     </tr>
                                 ))

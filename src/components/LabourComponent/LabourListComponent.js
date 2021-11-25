@@ -124,7 +124,7 @@ const LabourListComponent = () => {
                     <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span>{` ${deletingLabour.id}`}</span></Form.Label>
+                    <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span>{` ${deletingLabour.id}`}</span></Form.Label>
                     <Form.Label className="mb-3 px-4"><b>Name :&nbsp;</b><span>{` ${deletingLabour.name}`}</span></Form.Label>
                     <p className="px-2">Do you really want to delete this record? This process can not be undone.</p>
                     {isDeleteLoading &&
@@ -204,7 +204,7 @@ const LabourListComponent = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form className="p-4" style={{ backgroundColor: '#ffffff' }}>
-                        <Form.Label className="mb-3">Name : <span> Kapila Perera</span></Form.Label>
+                        <Form.Label className="mb-3">Name : <span> {selectedLabour.name}</span></Form.Label>
                         <Form.Group className="mb-3" controlId="formLabourName">
                             <Form.Label>Company</Form.Label>
                             <Form.Select onChange={handleCompanySelect}>

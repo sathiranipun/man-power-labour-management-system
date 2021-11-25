@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
+import { getAllCompanies } from '../../services/companyService';
 import { useStateValue } from '../../services/ContextProvider'
+import { assignALabour, getjobRequests } from '../../services/JobRequestService';
 import { deleteLabour, getAllLabours, updateLabour } from '../../services/LabourService';
 
 
@@ -9,7 +11,12 @@ const LabourListComponent = () => {
     const handleClose = () => setAssignModalShow(false);
     const handleShow = () => setAssignModalShow(true);
 
-    const { labourState, labourDispatch } = useStateValue();
+    const {
+        labourState,
+        labourDispatch,
+        companyList,
+        companyDispatch,
+    } = useStateValue();
     const [updateModalShow, setUpdateModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isUpdateLoading, setIsUpdateLoading] = useState(false);
@@ -18,6 +25,11 @@ const LabourListComponent = () => {
         name: '',
         id: ''
     });
+    const [jobList, setjobList] = useState([]);
+    const [selectedCompany, setSelectedCompany] = useState(null);
+    const [selectedJob, setselectedJob] = useState(null);
+    const [selectedLabour, setselectedLabour] = useState(null);
+    const [assignLoading, setassignLoading] = useState(false);
 
     const [updatingLabour, setUpdatingLabour] = useState({
         id: '',
@@ -74,6 +86,37 @@ const LabourListComponent = () => {
         setIsDeleteLoading(false);
         setDeleteModalShow(false);
     }
+
+    const handleAssignClicked = async (e, labour) => {
+        setjobList([]);
+        setselectedLabour(labour)
+        if (companyList.companyList.length == 0)
+            await getAllCompanies(companyDispatch);
+        setAssignModalShow(true);
+    }
+
+    const handleCompanySelect = async (e) => {
+        let selectedCMP = companyList.companyList.filter(item => item.id == e.target.value);
+        setSelectedCompany(selectedCMP)
+        let requestList = await getjobRequests(selectedCMP);
+        setjobList(requestList);
+    }
+
+    const handleJobSelect = (e) => {
+        let selectedJOB = jobList.filter(item => item.id == e.target.value);
+        setselectedJob(selectedJOB);
+    }
+
+    const handleJobAssign = async (e) => {
+        e.preventDefault();
+        setassignLoading(true);
+        if (selectedCompany != null && selectedJob != null) {
+            await assignALabour(selectedCompany[0].id, selectedJob[0].id, selectedLabour);
+        }
+        setassignLoading(false);
+        setAssignModalShow(false);
+    }
+
     return (
         <div>
             <Modal show={deleteModalShow} closeButton onHide={() => setDeleteModalShow(false)}>
@@ -81,7 +124,7 @@ const LabourListComponent = () => {
                     <Modal.Title>Are you sure?</Modal.Title>
                 </Modal.Header>
                 <ModalBody>
-                <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span>{` ${deletingLabour.id}`}</span></Form.Label>
+                    <Form.Label className="mb-3 px-4"><b>UId :&nbsp;</b><span>{` ${deletingLabour.id}`}</span></Form.Label>
                     <Form.Label className="mb-3 px-4"><b>Name :&nbsp;</b><span>{` ${deletingLabour.name}`}</span></Form.Label>
                     <p className="px-2">Do you really want to delete this record? This process can not be undone.</p>
                     {isDeleteLoading &&
@@ -161,18 +204,32 @@ const LabourListComponent = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form className="p-4" style={{ backgroundColor: '#ffffff' }}>
-                        <Form.Label className="mb-3">Name : <span> Kapila Perera</span></Form.Label>
+                        <Form.Label className="mb-3">Name : <span> {selectedLabour.name}</span></Form.Label>
                         <Form.Group className="mb-3" controlId="formLabourName">
                             <Form.Label>Company</Form.Label>
-                            <Form.Select  >
-                                <option>Select Company</option>
+                            <Form.Select onChange={handleCompanySelect}>
+                                <option value="" >-- Select a Company --</option>
+                                {
+                                    companyList.companyList.map(e => (
+                                        <option value={e.id} >{e.companyName}</option>
+                                    ))
+                                }
                             </Form.Select>
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formCompanyEmail">
-                            <Form.Label>Job</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Job " />
-                        </Form.Group>
+                        {jobList.length > 0 &&
+                            <Form.Group className="mb-3" controlId="formCompanyEmail">
+                                <Form.Label>Job</Form.Label>
+                                <Form.Select onChange={handleJobSelect}>
+                                    <option value="" >-- Select a Job --</option>
+                                    {
+                                        jobList.map(e => (
+                                            <option value={e.id} >{e.job}</option>
+                                        ))
+                                    }
+                                </Form.Select>
+                            </Form.Group>
+                        }
 
                     </Form>
                 </Modal.Body>
@@ -180,9 +237,14 @@ const LabourListComponent = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Assign
-                    </Button>
+                    {assignLoading &&
+                        <div class="spinner-border text-primary" role="status"></div>
+                    }
+                    {!assignLoading &&
+                        <Button variant="primary" onClick={(e) => handleJobAssign(e)}>
+                            Assign
+                        </Button>
+                    }
                 </Modal.Footer>
             </Modal>
 
@@ -223,7 +285,7 @@ const LabourListComponent = () => {
                                             <button className="btn btn-danger" onClick={() => onDeleteClick(labour)} >Delete</button>
                                         </td>
                                         <td>
-                                            <button className="btn btn-primary" onClick={() =>setAssignModalShow(true)}>Assign</button>
+                                            <button className="btn btn-primary" onClick={(e) => handleAssignClicked(e, labour)}>Assign</button>
                                         </td>
                                     </tr>
                                 ))

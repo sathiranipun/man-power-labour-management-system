@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Button, Form, Modal, Card, Row, Col, Container, Stack, Accordion, useAccordionButton } from "react-bootstrap";
 import { getAllCompanies } from '../../services/companyService';
 import { useStateValue } from '../../services/ContextProvider';
-import { createJobRequest, deleteJobRequest, getjobRequests, updateJobRequest } from '../../services/JobRequestService';
+import { createJobRequest, deleteJobRequest, getAllJobRequests, updateJobRequest } from '../../services/JobRequestService';
+import { companyActionTypes } from '../../services/Reducers/companyReducer';
 
 const CustomToggle = ({ children, eventKey }) => {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -34,12 +35,17 @@ const JobComponent = () => {
         if (!companyList.companyList) {
             await getAllCompanies(companyDispatch);
         }
-        getAllJobRequests();
     }, []);
 
     useEffect(() => {
-        getAllJobRequests();
+        if (!companyList.jobRequests && companyList.companyList.length) {
+            getAllJobRequests(companyDispatch, companyList.companyList);
+        }
     }, [companyList.companyList])
+
+    useEffect(() => {
+        setJobRequests(companyList.jobRequests || []);
+    }, [companyList.jobRequests])
 
     useEffect(() => {
         if(companyList.companyList && job.company?.id){
@@ -63,20 +69,11 @@ const JobComponent = () => {
     const addJobRequest = async () => {
         try {
             const company = job.company;
-            const id = await createJobRequest(job);
+            const id = await createJobRequest({ ...job, labourCount: 0 });
             setJobRequests([...jobRequests, { ...job, id: id, company:company }])
             setShowModal(false);
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    const getAllJobRequests = async () => {
-        try {
-            const allJobRequests = await getjobRequests(companyList.companyList);
-            setJobRequests(allJobRequests)
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -200,7 +197,7 @@ const JobComponent = () => {
                             <Card.Body style={{ margin: 10 }}>
                                 <Accordion defaultActiveKey="0">
                                     {jobRequests.map((jobRequest, index) => (
-                                        <Card >
+                                        <Card key={`${jobRequest.company.id}-${jobRequest.id}`}>
                                             <Card.Header>
                                                 <Row>
                                                     <Col>

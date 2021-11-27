@@ -3,6 +3,7 @@ import { Button, Nav, Tabs, Tab } from "react-bootstrap";
 import AddCompanyComponent from '../components/CompanyComponent/AddCompanyComponent';
 import CompanyListComponent from '../components/CompanyComponent/CompanyListComponent';
 import JobComponent from '../components/CompanyComponent/JobComponent';
+import PaymentComponent from '../components/CompanyComponent/PaymentComponent';
 
 
 const CompanyContainer = () => {
@@ -21,7 +22,7 @@ const CompanyContainer = () => {
                         <JobComponent />
                     </Tab>
                     <Tab eventKey="fourth" title="Payments">
-                        Payments
+                        <PaymentComponent />
                     </Tab>
                     <Tab eventKey="fifth" title="Services">
                         Services

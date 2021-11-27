@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
+import { Form, Modal, ModalBody, Table, Button } from 'react-bootstrap'
 import { deleteCompany, getAllCompanies, updateCompany } from '../../services/companyService'
 import { useStateValue } from '../../services/ContextProvider'
 
@@ -23,8 +23,8 @@ const CompanyListComponent = () => {
     });
 
 
-    useEffect(async () => {
-        await getAllCompanies(companyDispatch);
+    useEffect(() => {
+        getAllCompanies(companyDispatch);
     }, []);
 
     const handleChange = (e) => {

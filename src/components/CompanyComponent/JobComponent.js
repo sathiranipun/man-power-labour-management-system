@@ -117,7 +117,7 @@ const JobComponent = () => {
                             <Form.Label>Company</Form.Label>
                             <Form.Select defaultValue={job.company?.id} onChange={(e)=>setJob({...job, company:{id:e.target.value}})} >
                                 <option>Select Company</option>
-                                {companyList.companyList.map(c=><option value={c.id}>{c.companyName}</option>)}
+                                {companyList.companyList.map(c=><option value={c.id} key={c.id}>{c.companyName}</option>)}
                             </Form.Select>
                         </Form.Group>
 
@@ -133,7 +133,7 @@ const JobComponent = () => {
 
 
                         {Object.keys(job).map((keyName, i) => (
-                            <div>
+                            <div key={i}>
                                 {keyName !== "id" && keyName !== "company" && keyName !== "jobDescription" && keyName !== "job" ? (
                                     <Form.Group className="mb-3" controlId={keyName}>
                                         <Stack direction="horizontal"><Form.Label>{keyName}</Form.Label><span type="button" className="ms-auto" style={{ color: "blue", fontSize: 12 }} onClick={() => removeAttributes(keyName)}>Delete Field</span></Stack>
@@ -230,7 +230,7 @@ const JobComponent = () => {
                                                         </div>
                                                     </div>
                                                     {Object.keys(jobRequest).map((keyName, i) => (
-                                                        <div>
+                                                        <div key={i}>
                                                             {keyName !== "id" && keyName !== "company" && keyName !== "jobDescription" && keyName !== "job" ? (
                                                                 <div style={{ paddingTop: 15 }}>
                                                                     <div><span><strong>{keyName}</strong></span></div>

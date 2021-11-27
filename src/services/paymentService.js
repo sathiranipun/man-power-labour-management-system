@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs, getFirestore, updateDoc } from "@firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, setDoc } from "@firebase/firestore";
 
 export const getAllPayments = async (jobRequests, setPayments) => {
     const db = getFirestore();
@@ -19,10 +19,7 @@ export const addNewPayment = async (payment, payments, setPayments, index) => {
     const db = getFirestore();
     try {
         const ref = await addDoc(collection(db, 'payments'), payment);
-        payments[index] = {
-            ...payment,
-            id: ref.id
-        };
+        payments[index] = { id: ref.id, ...payment };
         setPayments(payments);
     } catch (err) {
         console.log(err);
@@ -32,8 +29,19 @@ export const addNewPayment = async (payment, payments, setPayments, index) => {
 export const updatePayment = async (id, payment, payments, setPayments, index) => {
     const db = getFirestore();
     try {
-        await updateDoc(doc(db, 'payments', id), payment);
-        payments[index] = payment;
+        await setDoc(doc(db, 'payments', id), payment);
+        payments[index] = { id, ...payment };
+        setPayments(payments);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const deletePayment = async (id, payments, setPayments, index) => {
+    const db = getFirestore();
+    try {
+        await deleteDoc(doc(db, 'payments', id));
+        payments[index] = null;
         setPayments(payments);
     } catch (err) {
         console.log(err);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Modal, Table, Button } from 'react-bootstrap';
+import { Form, Modal, Table, Button, Badge } from 'react-bootstrap';
 import { getAllCompanies } from '../../services/companyService';
 import { useStateValue } from '../../services/ContextProvider';
 import { getAllJobRequests } from '../../services/JobRequestService';
-import { addNewPayment, getAllPayments, updatePayment } from '../../services/paymentService';
+import { addNewPayment, deletePayment, getAllPayments, updatePayment } from '../../services/paymentService';
 
 const PaymentComponent = () => {
     const { companyList, companyDispatch } = useStateValue();
@@ -14,6 +14,9 @@ const PaymentComponent = () => {
     const [currentPayment, setCurrentPayment] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
     useEffect(() => {
         if (!companyList.companyList) {
@@ -51,6 +54,13 @@ const PaymentComponent = () => {
         setShowModal(true);
     }
 
+    const removePayment = (jobRequest, payment, index) => {
+        setCurrentJobRequest(jobRequest);
+        setCurrentPayment(payment);
+        setCurrentIndex(index);
+        setShowDeleteModal(true);
+    }
+
     const changePaymentType = (value) => {
         const paymentValue = currentPayment[`${currentPayment.paymentType}s`];
         delete currentPayment[`${currentPayment.paymentType}s`];
@@ -61,7 +71,7 @@ const PaymentComponent = () => {
         });
     }
 
-    const savePayments = async () => {
+    const handleSavePayment = async () => {
         if(currentPayment.id) {
             const { id, ...data } = currentPayment;
             await updatePayment(id, data, payments, setPayments, currentIndex);
@@ -71,8 +81,36 @@ const PaymentComponent = () => {
         setShowModal(false);
     }
 
+    const handleDeletePayment = async () => {
+        await deletePayment(currentPayment.id, payments, setPayments, currentIndex);
+        setShowDeleteModal(false);
+    }
+
     return (
         <div>
+            <Modal show={showDeleteModal} closeButton onHide={() => setShowDeleteModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Are you sure?</Modal.Title>
+                </Modal.Header>
+                {
+                    currentPayment && currentJobRequest && <Modal.Body>
+                        <Form.Label className="mb-2 px-4"><b>UId :&nbsp;</b><span>{` ${currentPayment.id}`}</span></Form.Label><br />
+                        <Form.Label className="mb-2 px-4"><b>Company :&nbsp;</b><span>{` ${currentJobRequest.company.name}`}</span></Form.Label><br />
+                        <Form.Label className="mb-2 px-4"><b>Job :&nbsp;</b><span>{` ${currentJobRequest.job}`}</span></Form.Label><br />
+                        <p className="px-2">Do you really want to delete this payment record? This process can not be undone.</p>
+                        {
+                            isLoading ? (
+                                <div class="spinner-border text-primary" role="status"></div>
+                            ) : (
+                                <Button variant="danger" type="submit" onClick={() => handleDeletePayment()}>
+                                    Confirm {` & `} Delete
+                                </Button>
+                            )
+                        }
+                    </Modal.Body>
+                }
+            </Modal>
+
             <Modal
                 show={showModal}
                 onHide={() => setShowModal(false)}
@@ -118,6 +156,11 @@ const PaymentComponent = () => {
                                 <Form.Label>Number of {currentPayment.paymentType}s</Form.Label>
                                 <Form.Control type="number" placeholder="Enter Company Commission per Labour" value={currentPayment[`${currentPayment.paymentType}s`]}  min={1} onChange={(e) => setCurrentPayment({ ...currentPayment, [`${currentPayment.paymentType}s`]: parseInt(e.target.value) })} />
                             </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="formCompanyPaid">
+                                <Form.Label>Paid amount</Form.Label>
+                                <Form.Control type="number" placeholder="Enter the Amount paid" value={currentPayment.paid || 0}  min={0} onChange={(e) => setCurrentPayment({ ...currentPayment, paid: parseInt(e.target.value) })} />
+                            </Form.Group>
                         </Form>
                     }
                 </Modal.Body>
@@ -125,9 +168,15 @@ const PaymentComponent = () => {
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => savePayments()}>
-                        Save Changes
-                    </Button>
+                    {
+                        isLoading ? (
+                            <div class="spinner-border text-primary" role="status"></div>
+                        ) : (
+                            <Button variant="primary" onClick={() => handleSavePayment()}>
+                                Save Changes
+                            </Button>
+                        )
+                    }
                 </Modal.Footer>
             </Modal>
 
@@ -141,8 +190,10 @@ const PaymentComponent = () => {
                                 <th>Job</th>
                                 <th>Labour count</th>
                                 <th>Payment Status</th>
-                                <th>Per Labour(Rs.)</th>
-                                <th>Company Allocation</th>
+                                <th>Payment Type</th>
+                                <th>Amount (Rs.)</th>
+                                <th>Company Commission</th>
+                                <th>Hours/Days/Month count</th>
                                 <th>Total amount</th>
                                 <th>Paid amount</th>
                                 <th></th>
@@ -158,15 +209,29 @@ const PaymentComponent = () => {
                                         <td>{jobRequest.labourCount}</td>
                                         <td>
                                             {
-                                                payments[index] ? '-' : 'Not allocated'
+                                                payments[index] ? (
+                                                    payments[index].perLabour * (1 + payments[index].companyCommission/100) * jobRequest.labourCount * payments[index][`${payments[index].paymentType}s`] <= payments[index].paid ? 
+                                                    <Badge bg="success" pill>Completed</Badge> : <Badge bg="danger" pill>To be paid</Badge>
+                                                ) : <Badge bg="warning" pill text="dark">Not allocated</Badge>
                                             }
                                         </td>
-                                        <td>{'-'}</td>
-                                        <td>{'-'}</td>
-                                        <td>{'-'}</td>
-                                        <td>{'-'}</td>
+                                        <td>{payments[index] ? `Per ${payments[index].paymentType}` : '-'}</td>
+                                        <td>{payments[index] ? payments[index].perLabour : '-'}</td>
+                                        <td>{payments[index] ? payments[index].companyCommission + '%' : '-'}</td>
+                                        <td>{payments[index] ? payments[index][`${payments[index].paymentType}s`] : '-'}</td>
+                                        <td>{payments[index] ? (
+                                            payments[index].perLabour * (1 + payments[index].companyCommission/100) * jobRequest.labourCount * payments[index][`${payments[index].paymentType}s`]
+                                        ) : '-'}</td>
+                                        <td>{payments[index] ? (payments[index].paid || 0) : '-'}</td>
                                         <td>
-                                            <button className="btn btn-primary" onClick={() => addPayment(jobRequest, payments[index], index)}>Add Payment</button>
+                                            <Button size="sm" variant="primary" className="m-1" onClick={() => addPayment(jobRequest, payments[index], index)}>
+                                                {
+                                                    payments[index] ? 'Edit' : 'Add'
+                                                }
+                                            </Button>
+                                            <Button size="sm" variant="danger" className="m-1" disabled={!payments[index]} onClick={() => removePayment(jobRequest, payments[index], index)}>
+                                                Remove
+                                            </Button>
                                         </td>
                                     </tr>
                                 ))

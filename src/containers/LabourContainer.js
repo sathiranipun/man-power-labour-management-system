@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Nav, Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab } from "react-bootstrap";
 import AddLabourComponent from '../components/LabourComponent/AddLabourComponent';
 import LabourListComponent from '../components/LabourComponent/LabourListComponent';
 

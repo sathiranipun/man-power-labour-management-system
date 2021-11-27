@@ -31,7 +31,7 @@ export const getAllLabours = async (labourDispatch) => {
 export const addLabour = async (labourData) => {
     try {
         const db = getFirestore()
-        const docRef = await addDoc(collection(db, 'labours'), labourData);
+        await addDoc(collection(db, 'labours'), labourData);
     } catch (error) {
         console.log(error);
     }

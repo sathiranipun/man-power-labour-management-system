@@ -15,9 +15,9 @@ const PaymentComponent = () => {
     const [currentIndex, setCurrentIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
-    useEffect(async () => {
+    useEffect(() => {
         if (!companyList.companyList) {
-            await getAllCompanies(companyDispatch);
+            getAllCompanies(companyDispatch);
         }
     }, []);
 
@@ -27,10 +27,10 @@ const PaymentComponent = () => {
         }
     }, [companyList.companyList])
 
-    useEffect(async () => {
+    useEffect(() => {
         setJobRequests(companyList.jobRequests || []);
         if (companyList.jobRequests) {
-            await getAllPayments(companyList.jobRequests, setPayments);
+            getAllPayments(companyList.jobRequests, setPayments);
         }
     }, [companyList.jobRequests])
 

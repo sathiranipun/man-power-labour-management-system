@@ -8,12 +8,9 @@ import DashboardContainer from "./containers/DashboardContainer";
 import LabourContainer from "./containers/LabourContainer";
 import LoginContainer from "./containers/LoginContainer";
 import Sidenavbar from "./components/Sidenavbar";
-import LoginComponent from "./components/LoginComponent";
-import JobComponent from "./components/CompanyComponent/JobComponent";
 import { GuardedRoute } from "./services/GuardedRoute";
-import { authStateChangeHandle, login, logout } from "./services/UserService";
+import { authStateChangeHandle } from "./services/UserService";
 import { useStateValue } from "./services/ContextProvider";
-import { getAllLabours } from "./services/LabourService";
 import UserContainer from "./containers/UserContainer";
 
 
@@ -26,11 +23,11 @@ const App = () => {
   useEffect(() => setLoginUI(location.pathname.includes('login')), [location]);
 
   //Getting user and globle data
-  const { userState, globalDispatch, userDispatch, globalState, labourState, labourDispatch } = useStateValue();
+  const { userState, globalDispatch, userDispatch, globalState, labourState } = useStateValue();
 
   //Run the auth state listner
-  useEffect(async () => {
-    await authStateChangeHandle(globalDispatch, userDispatch);
+  useEffect(() => {
+    authStateChangeHandle(globalDispatch, userDispatch);
     //await login("nipun299233@gmail.com", 'nipun123');
     //await logout();
   }, []);

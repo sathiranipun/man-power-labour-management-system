@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Nav, Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab } from "react-bootstrap";
 import AddCompanyComponent from '../components/CompanyComponent/AddCompanyComponent';
 import CompanyListComponent from '../components/CompanyComponent/CompanyListComponent';
 import JobComponent from '../components/CompanyComponent/JobComponent';

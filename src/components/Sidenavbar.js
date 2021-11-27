@@ -2,7 +2,6 @@ import React from 'react'
 import "./Sidenavbar.css";
 import {  Button } from 'react-bootstrap'
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
 import {getAuth,signOut} from 'firebase/auth'
 
 const Sidenavbar = () => {

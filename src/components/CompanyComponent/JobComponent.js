@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form, Modal, Card, Row, Col, Container, Stack, Accordion, useAccordionButton } from "react-bootstrap";
+import { Button, Form, Modal, Card, Row, Col , Stack, Accordion, useAccordionButton } from "react-bootstrap";
 import { getAllCompanies } from '../../services/companyService';
 import { useStateValue } from '../../services/ContextProvider';
 import { createJobRequest, deleteJobRequest, getAllJobRequests, updateJobRequest } from '../../services/JobRequestService';
-import { companyActionTypes } from '../../services/Reducers/companyReducer';
 
 const CustomToggle = ({ children, eventKey }) => {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -31,9 +30,9 @@ const JobComponent = () => {
     const [fieldName, setFieldName] = useState('');
     const [fieldValue, setFieldValue] = useState('');
 
-    useEffect(async () => {
+    useEffect(() => {
         if (!companyList.companyList) {
-            await getAllCompanies(companyDispatch);
+            getAllCompanies(companyDispatch);
         }
     }, []);
 

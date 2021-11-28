@@ -24,9 +24,6 @@ const CompanyContainer = () => {
                     <Tab eventKey="fourth" title="Payments">
                         <PaymentComponent />
                     </Tab>
-                    <Tab eventKey="fifth" title="Services">
-                        Services
-                    </Tab>
                 </Tabs>
             </div>
         </div>

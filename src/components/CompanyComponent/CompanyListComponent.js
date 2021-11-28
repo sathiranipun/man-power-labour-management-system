@@ -130,7 +130,7 @@ const CompanyListComponent = () => {
                 </ModalBody>
             </Modal>
             <div className="row mt-4 p-4">
-                <div className="col-12 p-4">
+                <div className="card col-12 p-4">
                     <Table striped bordered hover className="mt-4">
                         <thead>
                             <tr>
@@ -152,8 +152,8 @@ const CompanyListComponent = () => {
                                         <td>{company.contactNo}</td>
                                         <td>{company.location}</td>
                                         <td>
-                                            <button className="btn btn-success" onClick={() => { onEditClick(company) }}>Edit</button>
-                                            <button className="btn btn-danger" onClick={() => { onDeleteClick(company) }}>Delete</button>
+                                            <button className="btn btn-success mx-1" onClick={() => { onEditClick(company) }}>Edit</button>
+                                            <button className="btn btn-danger mx-1" onClick={() => { onDeleteClick(company) }}>Delete</button>
                                         </td>
                                     </tr>
                                 ))

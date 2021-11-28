@@ -1,6 +1,7 @@
 export const companyActionTypes = {
     SET_COMPANY_LIST: 'SET_COMPANY_LIST',
-    SET_JOB_REQUESTS: 'SET_JOB_REQUESTS'
+    SET_JOB_REQUESTS: 'SET_JOB_REQUESTS',
+    SET_COMPANY_COUNT: 'SET_COMPANY_COUNT',
 }
 
 const companyReducer = (state, action) => {
@@ -17,6 +18,11 @@ const companyReducer = (state, action) => {
                 jobRequests: action.jobRequests
             }
 
+        case companyActionTypes.SET_COMPANY_COUNT:
+            return {
+                ...state,
+                companyCount: action.companyCount
+            }
         default:
             return state;
     }

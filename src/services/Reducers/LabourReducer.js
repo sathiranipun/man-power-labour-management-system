@@ -14,7 +14,7 @@ const labourReducer = (state, action) => {
         case labourActionTypes.SET_LABOUR_COUNT:
             return {
                 ...state,
-                labourList: action.labourCount,
+                labourCount: action.labourCount,
             }
         default:
             return state;

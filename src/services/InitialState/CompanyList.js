@@ -1,4 +1,5 @@
 export const companiesInitialState = {
     companyList: [],
-    jobRequests: null
+    jobRequests: null,
+    companyCount: 0,
 };

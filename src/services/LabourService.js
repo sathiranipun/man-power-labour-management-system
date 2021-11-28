@@ -1,28 +1,36 @@
 import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, updateDoc } from "@firebase/firestore"
 import { labourActionTypes } from "./Reducers/LabourReducer";
 
+let labourDocSubscriber = null;
+
 export const getAllLabours = async (labourDispatch) => {
     try {
         const db = getFirestore();
         let labourList = [];
-        onSnapshot(
-            collection(db, "labours"),
-            {
-                next: (snapshot) => {
-                    labourList = snapshot.docs;
-                    labourList = labourList.map(doc => {
-                        return { id: doc.id, ...doc.data() }
-                    });
-                    labourDispatch({
-                        type: labourActionTypes.SET_LABOUR_LIST,
-                        labourList: labourList,
-                    });
-                },
-                error: (error) => {
-                    console.log(error);
+        if (labourDocSubscriber == null) {
+            labourDocSubscriber = onSnapshot(
+                collection(db, "labours"),
+                {
+                    next: (snapshot) => {
+                        labourList = snapshot.docs;
+                        labourList = labourList.map(doc => {
+                            return { id: doc.id, ...doc.data() }
+                        });
+                        labourDispatch({
+                            type: labourActionTypes.SET_LABOUR_LIST,
+                            labourList: labourList,
+                        });
+                        labourDispatch({
+                            type: labourActionTypes.SET_LABOUR_COUNT,
+                            labourCount: labourList.length,
+                        })
+                    },
+                    error: (error) => {
+                        console.log(error);
+                    }
                 }
-            }
-        )
+            )
+        }
     } catch (error) {
         console.log(error);
     }

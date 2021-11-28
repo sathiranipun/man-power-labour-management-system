@@ -1,3 +1,4 @@
 export const laboursInitialState = {
-    labourList: []
-}; 
+    labourList: [],
+    labourCount: 0,
+};

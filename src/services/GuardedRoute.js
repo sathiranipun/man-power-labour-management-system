@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStateValue } from "./ContextProvider";
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 export const GuardedRoute = ({ Component, ...rest }) => {
     const { userState, globalState } = useStateValue();

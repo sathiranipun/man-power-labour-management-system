@@ -31,7 +31,7 @@ export const getAllCompanies = async (companyDispatch) => {
 export const addCompany = async (companyData) => {
     try {
         const db = getFirestore();
-        const docRef = await addDoc(collection(db, 'companies'), {
+        await addDoc(collection(db, 'companies'), {
             companyName: companyData.companyName,
             contactNo: companyData.contactNo,
             email: companyData.email,

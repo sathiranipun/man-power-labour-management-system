@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form, Modal, Card, Row, Col, Container, Stack, Accordion, useAccordionButton } from "react-bootstrap";
+import { Button, Form, Modal, Card, Row, Col , Stack, Accordion, useAccordionButton } from "react-bootstrap";
 import { getAllCompanies } from '../../services/companyService';
 import { useStateValue } from '../../services/ContextProvider';
-import { createJobRequest, deleteJobRequest, getjobRequests, updateJobRequest } from '../../services/JobRequestService';
+import { createJobRequest, deleteJobRequest, getAllJobRequests, updateJobRequest } from '../../services/JobRequestService';
 
 const CustomToggle = ({ children, eventKey }) => {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -30,16 +30,21 @@ const JobComponent = () => {
     const [fieldName, setFieldName] = useState('');
     const [fieldValue, setFieldValue] = useState('');
 
-    useEffect(async () => {
+    useEffect(() => {
         if (!companyList.companyList) {
-            await getAllCompanies(companyDispatch);
+            getAllCompanies(companyDispatch);
         }
-        getAllJobRequests();
     }, []);
 
     useEffect(() => {
-        getAllJobRequests();
+        if (!companyList.jobRequests && companyList.companyList.length) {
+            getAllJobRequests(companyDispatch, companyList.companyList);
+        }
     }, [companyList.companyList])
+
+    useEffect(() => {
+        setJobRequests(companyList.jobRequests || []);
+    }, [companyList.jobRequests])
 
     useEffect(() => {
         if(companyList.companyList && job.company?.id){
@@ -63,20 +68,11 @@ const JobComponent = () => {
     const addJobRequest = async () => {
         try {
             const company = job.company;
-            const id = await createJobRequest(job);
+            const id = await createJobRequest({ ...job, labourCount: 0 });
             setJobRequests([...jobRequests, { ...job, id: id, company:company }])
             setShowModal(false);
         } catch (error) {
             console.log(error);
-        }
-    }
-
-    const getAllJobRequests = async () => {
-        try {
-            const allJobRequests = await getjobRequests(companyList.companyList);
-            setJobRequests(allJobRequests)
-        } catch (error) {
-            console.log(error)
         }
     }
 
@@ -121,7 +117,7 @@ const JobComponent = () => {
                             <Form.Label>Company</Form.Label>
                             <Form.Select defaultValue={job.company?.id} onChange={(e)=>setJob({...job, company:{id:e.target.value}})} >
                                 <option>Select Company</option>
-                                {companyList.companyList.map(c=><option value={c.id}>{c.companyName}</option>)}
+                                {companyList.companyList.map(c=><option value={c.id} key={c.id}>{c.companyName}</option>)}
                             </Form.Select>
                         </Form.Group>
 
@@ -137,7 +133,7 @@ const JobComponent = () => {
 
 
                         {Object.keys(job).map((keyName, i) => (
-                            <div>
+                            <div key={i}>
                                 {keyName !== "id" && keyName !== "company" && keyName !== "jobDescription" && keyName !== "job" ? (
                                     <Form.Group className="mb-3" controlId={keyName}>
                                         <Stack direction="horizontal"><Form.Label>{keyName}</Form.Label><span type="button" className="ms-auto" style={{ color: "blue", fontSize: 12 }} onClick={() => removeAttributes(keyName)}>Delete Field</span></Stack>
@@ -200,7 +196,7 @@ const JobComponent = () => {
                             <Card.Body style={{ margin: 10 }}>
                                 <Accordion defaultActiveKey="0">
                                     {jobRequests.map((jobRequest, index) => (
-                                        <Card >
+                                        <Card key={`${jobRequest.company.id}-${jobRequest.id}`}>
                                             <Card.Header>
                                                 <Row>
                                                     <Col>
@@ -234,7 +230,7 @@ const JobComponent = () => {
                                                         </div>
                                                     </div>
                                                     {Object.keys(jobRequest).map((keyName, i) => (
-                                                        <div>
+                                                        <div key={i}>
                                                             {keyName !== "id" && keyName !== "company" && keyName !== "jobDescription" && keyName !== "job" ? (
                                                                 <div style={{ paddingTop: 15 }}>
                                                                     <div><span><strong>{keyName}</strong></span></div>

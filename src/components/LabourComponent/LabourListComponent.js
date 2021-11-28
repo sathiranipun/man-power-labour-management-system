@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Modal, ModalBody, Table, Button, Alert } from 'react-bootstrap'
+import { Form, Modal, ModalBody, Table, Button } from 'react-bootstrap'
 import { getAllCompanies } from '../../services/companyService';
 import { useStateValue } from '../../services/ContextProvider'
 import { assignALabour, getjobRequests } from '../../services/JobRequestService';
@@ -9,7 +9,6 @@ import { deleteLabour, getAllLabours, updateLabour } from '../../services/Labour
 const LabourListComponent = () => {
     const [assignModalShow, setAssignModalShow] = useState(false);
     const handleClose = () => setAssignModalShow(false);
-    const handleShow = () => setAssignModalShow(true);
 
     const {
         labourState,
@@ -41,8 +40,8 @@ const LabourListComponent = () => {
         location: ''
     });
 
-    useEffect(async () => {
-        await getAllLabours(labourDispatch);
+    useEffect(() => {
+        getAllLabours(labourDispatch);
     }, []);
 
     useEffect(() => {
@@ -90,20 +89,20 @@ const LabourListComponent = () => {
     const handleAssignClicked = async (e, labour) => {
         setjobList([]);
         setselectedLabour(labour)
-        if (companyList.companyList.length == 0)
+        if (companyList.companyList.length === 0)
             await getAllCompanies(companyDispatch);
         setAssignModalShow(true);
     }
 
     const handleCompanySelect = async (e) => {
-        let selectedCMP = companyList.companyList.filter(item => item.id == e.target.value);
+        let selectedCMP = companyList.companyList.filter(item => item.id === e.target.value);
         setSelectedCompany(selectedCMP)
         let requestList = await getjobRequests(selectedCMP);
         setjobList(requestList);
     }
 
     const handleJobSelect = (e) => {
-        let selectedJOB = jobList.filter(item => item.id == e.target.value);
+        let selectedJOB = jobList.filter(item => item.id === e.target.value);
         setselectedJob(selectedJOB);
     }
 
@@ -204,9 +203,7 @@ const LabourListComponent = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form className="p-4" style={{ backgroundColor: '#ffffff' }}>
-                        {selectedLabour != null &&
-                            <Form.Label className="mb-3">Name : <span> {selectedLabour.name}</span></Form.Label>
-                        }
+                        <Form.Label className="mb-3">Name : <span> {selectedLabour && selectedLabour.name}</span></Form.Label>
                         <Form.Group className="mb-3" controlId="formLabourName">
                             <Form.Label>Company</Form.Label>
                             <Form.Select onChange={handleCompanySelect}>

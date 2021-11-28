@@ -1,4 +1,5 @@
-import { collection, doc, getFirestore, addDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, doc, getFirestore, addDoc, getDocs, setDoc, deleteDoc, updateDoc, increment } from 'firebase/firestore';
+import { companyActionTypes } from './Reducers/companyReducer';
 
 export const createJobRequest = async (jobRequest) => {
     const db = getFirestore();
@@ -50,6 +51,9 @@ export const assignALabour = async (companyId, jobID, labour) => {
     try {
         //console.log(companyId, jobID, labour);
         await addDoc(collection(db, "companies", companyId, "jobRequests", jobID, "assignedLabours"), labour);
+        await updateDoc(doc(db, "companies", companyId, "jobRequests", jobID), {
+            labourCount: increment(1)
+        });
     } catch (error) {
         console.log(error);
     }
@@ -62,5 +66,17 @@ export const deleteJobRequest = async (id, companyId) => {
         console.log('deleted successfully')
     } catch (error) {
         console.log(error);
+    }
+}
+
+export const getAllJobRequests = async (companyDispatch, companyList, ) => {
+    try {
+        const allJobRequests = await getjobRequests(companyList);
+        companyDispatch({
+            type: companyActionTypes.SET_JOB_REQUESTS,
+            jobRequests: allJobRequests,
+        });
+    } catch (error) {
+        console.log(error)
     }
 }

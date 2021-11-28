@@ -1,5 +1,5 @@
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut,createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, doc, getFirestore, getDoc, onSnapshot, setDoc, addDoc, deleteDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, signOut,createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, doc, getFirestore, getDoc, onSnapshot, setDoc, deleteDoc, getDocs, updateDoc } from 'firebase/firestore';
 import {initializeApp,getApp,getApps} from 'firebase/app'
 import { globalActionTypes } from './Reducers/globalReducer';
 import { userActionTypes } from './Reducers/userReducer';

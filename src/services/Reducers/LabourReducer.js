@@ -1,5 +1,6 @@
 export const labourActionTypes = {
     SET_LABOUR_LIST: 'SET_LABOUR_LIST',
+    SET_LABOUR_COUNT: 'SET_LABOUR_COUNT',
 }
 
 const labourReducer = (state, action) => {
@@ -9,7 +10,12 @@ const labourReducer = (state, action) => {
                 ...state,
                 labourList: action.labourList,
             }
-    
+
+        case labourActionTypes.SET_LABOUR_COUNT:
+            return {
+                ...state,
+                labourList: action.labourCount,
+            }
         default:
             return state;
     }

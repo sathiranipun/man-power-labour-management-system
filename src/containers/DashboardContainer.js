@@ -1,8 +1,12 @@
 import React from 'react'
-import { Button, Alert, Card, Row, Col, Stack, Table } from "react-bootstrap";
+import { Button, Form, Modal, Card, Row, Col, Stack, Accordion, useAccordionButton } from "react-bootstrap";
+import { useStateValue } from '../services/ContextProvider';
 import "./DashboardContainer.css";
 
 const DashboardContainer = () => {
+
+    const { companyList, labourState } = useStateValue();
+
     return (
         <div>
             <Stack gap={3} className="pt-4 pb-0">
@@ -13,7 +17,7 @@ const DashboardContainer = () => {
                         <Card className="job-boarder">
                             <Card.Body>
                                 <div>Registered Companies</div>
-                                <h2>45</h2>
+                                <h2>{companyList.companyCount}</h2>
                             </Card.Body>
 
                         </Card>
@@ -22,7 +26,7 @@ const DashboardContainer = () => {
                         <Card className="labour-boarder">
                             <Card.Body>
                                 <div>Registered Labours</div>
-                                <h2>100</h2>
+                                <h2>{labourState.labourCount}</h2>
                             </Card.Body>
                         </Card>
                     </Col>

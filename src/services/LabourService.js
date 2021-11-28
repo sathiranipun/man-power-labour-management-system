@@ -23,7 +23,7 @@ export const getAllLabours = async (labourDispatch) => {
                         labourDispatch({
                             type: labourActionTypes.SET_LABOUR_COUNT,
                             labourCount: labourList.length,
-                        })
+                        });
                     },
                     error: (error) => {
                         console.log(error);

@@ -1,0 +1,32 @@
+.sidenavbar{
+    top: 0;
+    height: 100%;
+    background: #ffffff;
+    padding: 3rem;
+    width: 100%;  
+    height: 100vh;
+}
+
+.sidenavbar li{
+    display: block;
+    border-bottom: .1rem solid #8d8d8d;
+    font-size: 1.5rem;
+    padding: 0;
+    background: rgb(255, 255, 255);
+}
+
+.sidenavbar li:last-child{
+    margin-top:20px !important;
+    border-bottom: none;
+    /* background-color: #008cff;
+    color: white !important;
+    width: 100px;  
+    height: 40px;
+    border-radius: 10%; */
+}
+
+.sidenavbar li:hover{
+    /* letter-spacing: .2rem; */
+    color: #ff7b00 !important;
+}
+

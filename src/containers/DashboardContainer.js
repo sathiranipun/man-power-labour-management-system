@@ -10,7 +10,7 @@ const DashboardContainer = () => {
     return (
         <div>
             <Stack gap={3} className="pt-4 pb-0">
-                <h4 className="pb-3 text-center">Company Management</h4>
+                <h4 className="pb-3 text-center">Dashboard</h4>
                 <hr />
                 <Row className="px-4">
                     <Col md >
@@ -36,7 +36,7 @@ const DashboardContainer = () => {
                         <Card className="job-boarder">
                             <Card.Body>
                                 <div>No.of Ongoing Jobs</div>
-                                <h2>12</h2>
+                                <h2>05</h2>
                             </Card.Body>
 
                         </Card>
@@ -45,7 +45,7 @@ const DashboardContainer = () => {
                         <Card className="labour-boarder">
                             <Card.Body>
                                 <div>No.of Assigned Labours</div>
-                                <h2>85</h2>
+                                <h2>02</h2>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -55,7 +55,7 @@ const DashboardContainer = () => {
                         <Card className="job-boarder">
                             <Card.Body>
                                 <div>New Job Requests</div>
-                                <h2>05</h2>
+                                <h2>03</h2>
                             </Card.Body>
 
                         </Card>
@@ -64,7 +64,7 @@ const DashboardContainer = () => {
                         <Card>
                             <Card.Body className="labour-boarder">
                                 <div>No.of Unassigned Labours</div>
-                                <h2>85</h2>
+                                <h2>01</h2>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -86,7 +86,7 @@ const DashboardContainer = () => {
                                     <th>#</th>
                                     <th>Date</th>
                                     <th>Name</th>
-                                    <th>Generated Report</th>
+                                    <th>Generated Reports</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,19 +94,19 @@ const DashboardContainer = () => {
                                     <td>1</td>
                                     <td>2021-11-14</td>
                                     <td>MPLMS-21-11-14</td>
-                                    <td><Button variant="success" className="mx-2">View</Button></td>
+                                    <td><Button variant="success" >View</Button><Button variant="danger" className="mx-2">Delete</Button></td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
                                     <td>2021-10-23</td>
                                     <td>MPLMS-21-10-23</td>
-                                    <td><Button variant="success" className="mx-2">View</Button></td>
+                                    <td><Button variant="success" >View</Button><Button variant="danger" className="mx-2">Delete</Button></td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
                                     <td>2021-09-10</td>
                                     <td>MPLMS-21-09-10</td>
-                                    <td><Button variant="success" className="mx-2">View</Button></td>
+                                    <td><Button variant="success" >View</Button><Button variant="danger" className="mx-2">Delete</Button></td>
                                 </tr>
                             </tbody>
                         </Table>

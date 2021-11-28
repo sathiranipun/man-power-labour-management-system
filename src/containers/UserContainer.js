@@ -128,7 +128,7 @@ const UserContainer = () => {
                 userState.loggedUserData.isAdmin && (
                     <div className="row p-2">
                         <div className="col-12 col-lg-6">
-                            <Form className="p-4" style={{ backgroundColor: '#ffffff' }} onSubmit={handleSubmit}>
+                            <Form className="p-4" onSubmit={handleSubmit}>
                                 <h3>Add User</h3>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Name</Form.Label>
@@ -154,11 +154,11 @@ const UserContainer = () => {
                 )
             }
 
-            <div className="row mt-4 p-4" >
-                <div className="col-12 p-4" style={{ backgroundColor: '#ffffff' }} >
+            <div className="row p-4" >
+                <div className="card mx-2 col-12 p-4"  >
                     <h3>All Users</h3>
                     <Table striped bordered hover className="mt-4">
-                        <thead>
+                        <thead className="text-center">
                             <tr>
                                 <th>Uid</th>
                                 <th>Name</th>
@@ -172,17 +172,18 @@ const UserContainer = () => {
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             {
                                 users.length > 0 && users.map(user => (
-                                    <tr key={user.uid}>
+                                    <tr key={user.uid} >
                                         <td>{user.uid}</td>
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
                                         <td>{user.isAdmin === true ? 'True' : 'False'}</td>
                                         {
                                             userState.loggedUserData.isAdmin && (
-                                                <td><button className="btn btn-success" onClick={() => onEdit(user)}>Edit</button> <button disabled={user.uid === userState.loggedUserData.uid} className="btn btn-danger" onClick={() => deleteUser(user.uid)}>Delete</button></td>
+                                                <td className="text-center"><button className="btn btn-success mx-1" onClick={() => onEdit(user)}>Edit</button>
+                                                <button disabled={user.uid === userState.loggedUserData.uid} className="btn btn-danger" onClick={() => deleteUser(user.uid)}>Delete</button></td>
                                             )
                                         }
                                     </tr>

@@ -6,16 +6,13 @@ import LabourListComponent from '../components/LabourComponent/LabourListCompone
 const LabourContainer = () => {
     return (
         <div>
-             <h4 className="py-3 text-center">Company Management</h4>
+             <h4 className="py-3 text-center">Labour Management</h4>
                 <Tabs transition={true} defaultActiveKey="first">
                     <Tab eventKey="first" title="Add Labour">
                         <AddLabourComponent/>
                     </Tab>
                     <Tab eventKey="second" title="Labour List">
                         <LabourListComponent/>
-                    </Tab>
-                    <Tab eventKey="third" title="Payments">
-                        Payments
                     </Tab>
                 </Tabs>
         </div>

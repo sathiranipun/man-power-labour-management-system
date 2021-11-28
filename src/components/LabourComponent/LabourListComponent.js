@@ -247,10 +247,10 @@ const LabourListComponent = () => {
                 </Modal.Footer>
             </Modal>
 
-            <div className="row mt-4 p-4">
-                <div className="col-12 p-4">
+            <div className="row p-4">
+                <div className="card col-12 p-4">
                     <Table striped bordered hover className="mt-4">
-                        <thead>
+                        <thead className="text-center">
                             <tr>
                                 <th>Uid</th>
                                 <th>Labour Name</th>
@@ -273,7 +273,7 @@ const LabourListComponent = () => {
                                         <td>{labour.address}</td>
                                         <td>{labour.skills.map(e => `${e}, `)}</td>
                                         <td></td>
-                                        <td>
+                                        <td className="text-center">
                                             <button className="btn btn-success"
                                                 onClick={() => {
                                                     onEditClick({
@@ -281,10 +281,10 @@ const LabourListComponent = () => {
                                                         skills: labour.skills.map(e => ` ${e}`).toString()
                                                     })
                                                 }} >Edit</button>
-                                            <button className="btn btn-danger" onClick={() => onDeleteClick(labour)} >Delete</button>
+                                            <button className="btn btn-danger mx-1" onClick={() => onDeleteClick(labour)} >Delete</button>
                                         </td>
-                                        <td>
-                                            <button className="btn btn-primary" onClick={(e) => handleAssignClicked(e, labour)}>Assign</button>
+                                        <td className="text-center">
+                                            <button className="btn btn-primary mx-1" onClick={(e) => handleAssignClicked(e, labour)}>Assign</button>
                                         </td>
                                     </tr>
                                 ))

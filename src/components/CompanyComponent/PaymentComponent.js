@@ -181,7 +181,7 @@ const PaymentComponent = () => {
             </Modal>
 
             <div className="row mt-4 p-4">
-                <div className="col-12 p-4">
+                <div className="card col-12 p-4">
                     <Table striped bordered hover className="mt-4">
                         <thead>
                             <tr>

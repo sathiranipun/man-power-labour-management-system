@@ -45,6 +45,25 @@ const DashboardContainer = () => {
                         </Card>
                     </Col>
                 </Row>
+                <Row className="px-4">
+                    <Col md >
+                        <Card >
+                            <Card.Body>
+                                <div>No.of Ongoing Jobs</div>
+                                <h2>12</h2>
+                            </Card.Body>
+
+                        </Card>
+                    </Col>
+                    <Col md >
+                        <Card>
+                            <Card.Body>
+                                <div>No.of Assigned Users</div>
+                                <h2>85</h2>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
 
             </Stack>
         </div>

@@ -12,6 +12,8 @@ import { GuardedRoute } from "./services/GuardedRoute";
 import { authStateChangeHandle } from "./services/UserService";
 import { useStateValue } from "./services/ContextProvider";
 import UserContainer from "./containers/UserContainer";
+import { getAllLabours } from "./services/LabourService";
+import { getAllCompanies } from "./services/companyService";
 
 
 const App = () => {
@@ -23,22 +25,32 @@ const App = () => {
   useEffect(() => setLoginUI(location.pathname.includes('login')), [location]);
 
   //Getting user and globle data
-  const { userState, globalDispatch, userDispatch, globalState, labourState } = useStateValue();
+  const {
+    userState,
+    globalDispatch,
+    companyList,
+    companyDispatch,
+    userDispatch,
+    globalState,
+    labourState,
+    labourDispatch } = useStateValue();
 
   //Run the auth state listner
-  useEffect(() => {
+  useEffect(async () => {
     authStateChangeHandle(globalDispatch, userDispatch);
+    await getAllLabours(labourDispatch);
+    await getAllCompanies(companyDispatch);
     //await login("nipun299233@gmail.com", 'nipun123');
     //await logout();
   }, []);
 
   useEffect(() => {
-    console.log(labourState);
-  }, [labourState])
+    console.log(companyList);
+  }, [companyList]);
 
-  useEffect(() => {
-    console.log(userState);
-  }, [userState]);
+  // useEffect(() => {
+  //   console.log(userState);
+  // }, [userState]);
 
   if (globalState.authLoading) {
     return (

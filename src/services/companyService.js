@@ -1,28 +1,36 @@
 import { addDoc, collection, deleteDoc, doc, getFirestore, onSnapshot, updateDoc } from "@firebase/firestore"
 import { companyActionTypes } from "./Reducers/companyReducer";
 
+let companyDocSubscriber = null;
+
 export const getAllCompanies = async (companyDispatch) => {
     try {
         const db = getFirestore();
         let companyList = [];
-        onSnapshot(
-            collection(db, 'companies'),
-            {
-                next: (snapshot) => {
-                    let companySnapshots = snapshot.docs;
-                    companyList = companySnapshots.map(doc => {
-                        return { id: doc.id, ...doc.data() }
-                    });
-                    companyDispatch({
-                        type: companyActionTypes.SET_COMPANY_LIST,
-                        companyList: companyList,
-                    });
-                },
-                error: (error) => {
-                    console.log(error);
+        if (companyDocSubscriber == null) {
+            companyDocSubscriber = onSnapshot(
+                collection(db, 'companies'),
+                {
+                    next: (snapshot) => {
+                        let companySnapshots = snapshot.docs;
+                        companyList = companySnapshots.map(doc => {
+                            return { id: doc.id, ...doc.data() }
+                        });
+                        companyDispatch({
+                            type: companyActionTypes.SET_COMPANY_LIST,
+                            companyList: companyList,
+                        });
+                        companyDispatch({
+                            type: companyActionTypes.SET_COMPANY_COUNT,
+                            companyCount: companyList.length,
+                        });
+                    },
+                    error: (error) => {
+                        console.log(error);
+                    }
                 }
-            }
-        )
+            )
+        }
     } catch (error) {
         console.log(error);
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, Modal, Card, Row, Col, Stack, Accordion, useAccordionButton } from "react-bootstrap";
+import { Button, Form, Modal,Alert,Table, Card, Row, Col, Stack, Accordion, useAccordionButton } from "react-bootstrap";
 import { useStateValue } from '../services/ContextProvider';
 import "./DashboardContainer.css";
 
@@ -68,6 +68,52 @@ const DashboardContainer = () => {
                             </Card.Body>
                         </Card>
                     </Col>
+                </Row>
+                <hr />
+                <Row className="justify-content-md-center">
+                    <Col xs lg="8">
+                        <Alert variant="primary" className="mx-4 text-center">
+                            Click here to generate report
+                            <Button className="mx-2">Generate</Button>
+                        </Alert>
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center text-center">
+                    <Col xs lg="6">
+                        <Table responsive="sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Generated Report</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2021-11-14</td>
+                                    <td>MPLMS-21-11-14</td>
+                                    <td><Button variant="success" className="mx-2">View</Button></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2021-10-23</td>
+                                    <td>MPLMS-21-10-23</td>
+                                    <td><Button variant="success" className="mx-2">View</Button></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>2021-09-10</td>
+                                    <td>MPLMS-21-09-10</td>
+                                    <td><Button variant="success" className="mx-2">View</Button></td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+                <Row className="px-4">
+
                 </Row>
 
             </Stack>

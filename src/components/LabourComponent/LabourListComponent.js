@@ -204,7 +204,9 @@ const LabourListComponent = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form className="p-4" style={{ backgroundColor: '#ffffff' }}>
-                        <Form.Label className="mb-3">Name : <span> {selectedLabour.name}</span></Form.Label>
+                        {selectedLabour != null &&
+                            <Form.Label className="mb-3">Name : <span> {selectedLabour.name}</span></Form.Label>
+                        }
                         <Form.Group className="mb-3" controlId="formLabourName">
                             <Form.Label>Company</Form.Label>
                             <Form.Select onChange={handleCompanySelect}>

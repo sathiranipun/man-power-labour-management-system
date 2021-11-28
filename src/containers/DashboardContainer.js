@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Form, Modal, Card, Row, Col , Stack, Accordion, useAccordionButton } from "react-bootstrap";
+import "./DashboardContainer.css";
 
 const DashboardContainer = () => {
     return (
@@ -9,18 +10,18 @@ const DashboardContainer = () => {
             <hr/>
                 <Row className="px-4">
                     <Col md >
-                        <Card >
+                        <Card className="job-boarder">
                             <Card.Body>
                                 <div>Registered Companies</div>
-                                <h2>12</h2>
+                                <h2>45</h2>
                             </Card.Body>
 
                         </Card>
                     </Col>
                     <Col md >
-                        <Card>
+                        <Card className="labour-boarder">
                             <Card.Body>
-                                <div>Registered Users</div>
+                                <div>Registered Labours</div>
                                 <h2>100</h2>
                             </Card.Body>
                         </Card>
@@ -28,7 +29,7 @@ const DashboardContainer = () => {
                 </Row>
                 <Row className="px-4">
                     <Col md >
-                        <Card >
+                        <Card className="job-boarder">
                             <Card.Body>
                                 <div>No.of Ongoing Jobs</div>
                                 <h2>12</h2>
@@ -37,9 +38,9 @@ const DashboardContainer = () => {
                         </Card>
                     </Col>
                     <Col md >
-                        <Card>
+                        <Card className="labour-boarder">
                             <Card.Body>
-                                <div>No.of Assigned Users</div>
+                                <div>No.of Assigned Labours</div>
                                 <h2>85</h2>
                             </Card.Body>
                         </Card>
@@ -47,18 +48,18 @@ const DashboardContainer = () => {
                 </Row>
                 <Row className="px-4">
                     <Col md >
-                        <Card >
+                        <Card className="job-boarder">
                             <Card.Body>
-                                <div>No.of Ongoing Jobs</div>
-                                <h2>12</h2>
+                                <div>New Job Requests</div>
+                                <h2>05</h2>
                             </Card.Body>
 
                         </Card>
                     </Col>
                     <Col md >
                         <Card>
-                            <Card.Body>
-                                <div>No.of Assigned Users</div>
+                            <Card.Body className="labour-boarder">
+                                <div>No.of Unassigned Labours</div>
                                 <h2>85</h2>
                             </Card.Body>
                         </Card>
